@@ -8,6 +8,11 @@ from selenium.webdriver.common.keys import Keys
 import time
 import csv
 
+'''
+    This code is sample code to crawl title of Youtube video.
+    Running on Local Environment.
+'''
+
 # 유튜브 웹 페이지 접속
 # 자동화된 크롬 창 실행
 chrome_driver = ChromeDriverManager().install()
@@ -26,30 +31,30 @@ time.sleep(3)
 # 검색한 페이지의 동영상 제목 가져오기
 def return_result(keyword):
     # 검색창에 단어 입력
+    driver.find_element(By.CSS_SELECTOR, "input#search").clear()
+    time.sleep(2)
     driver.find_element(By.CSS_SELECTOR, "input#search").send_keys(keyword)
+    time.sleep(2)
     driver.find_element(By.CSS_SELECTOR, "button#search-icon-legacy").click()
-    time.sleep(1)
+    time.sleep(2)
 
     # 검색 결과 저장
-    target = driver.find_elements(By.CSS_SELECTOR, "a#video-title yt-formatted-string,style-scope ytd-video-renderer")
-    time.sleep(2)
-
     output = []
-    for item in target:
-        if item.text not in output:
-            output.append(item.text)
-        time.sleep(1)
-    
-    driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.PAGE_DOWN)
-    time.sleep(2)
+    scroll_count = 0
+    while scroll_count <= 10:
+        target = driver.find_elements(By.CSS_SELECTOR, "a#video-title yt-formatted-string,style-scope ytd-video-renderer")
+        time.sleep(2)
 
-    target = driver.find_elements(By.CSS_SELECTOR, "a#video-title yt-formatted-string,style-scope ytd-video-renderer")
-    time.sleep(2)
+        for item in target:
+            if item.text not in output:
+                output.append(item.text)
+        time.sleep(2)
+        print("Done.")
+        scroll_position = 900 + scroll_count * 900
+        driver.execute_script(f"window.scrollTo(0,{scroll_position});")
+        time.sleep(2)
 
-    for item in target:
-        if item.text not in output:
-            output.append(item.text)
-        time.sleep(1)
+        scroll_count += 1
     
     return output
 
