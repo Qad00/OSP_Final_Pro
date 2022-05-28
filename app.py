@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 from flask import Flask, render_template, request
-from features.crawling import craw_comments
+from features import Craw_data
 from features.comment_research import research_data
 from features.word_cloud import make_word_cloud
 from features.url_type import check_url_type
@@ -35,7 +35,7 @@ def result():
     video_id = get_video_id(given_url)
 
             # crawling video comments with given url
-    crawled_data = craw_comments(given_url)
+    crawled_data = Craw_data().getComments(given_url)
 
             # make word cloud from crawled data
     word_cloud = make_word_cloud(crawled_data)
