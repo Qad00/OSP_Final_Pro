@@ -18,7 +18,7 @@ class Craw_data:
         options.add_experimental_option("excludeSwitches", ["enable-logging"])
         
         self.driver = webdriver.Chrome(service=service, options=options)
-        
+
     def setHVideo(self, url='https://www.youtube.com/'):
         '''
             Structure of "hVideo"
@@ -140,7 +140,6 @@ class Craw_data:
         time.sleep(3)
 
         # Crawling start...
-        
         # 페이지 맨 밑으로 내리기
         scroll_count = 0
         while scroll_count < 500:
