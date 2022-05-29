@@ -47,7 +47,7 @@ class Craw_data:
         links = self.driver.find_elements(By.CSS_SELECTOR, "ytd-rich-grid-row a#video-title-link")
         time.sleep(2)
         
-        for idx in range(10):
+        for idx in tqdm(range(10)):
             link = links[idx].get_attribute('href')
             self.hVideo[link] = dict()
             self.hVideo[link]['title'] = titles[idx].text
@@ -112,10 +112,10 @@ class Craw_data:
             time.sleep(2)
             
             for idx in tqdm(range(10)):
-                link = links[idx].get_attribute('href')
-                self.kVideo[keyword][link] = dict()
-                self.kVideo[keyword][link]['title'] = titles[idx].text
-                self.kVideo[keyword][link]['img'] = imgs[idx].get_attribute('src')
+               link = links[idx].get_attribute('href')
+               self.kVideo[keyword][link] = dict()
+               self.kVideo[keyword][link]['title'] = titles[idx].text
+               self.kVideo[keyword][link]['img'] = imgs[idx].get_attribute('src')
 
             #self.driver.close()
         else:
@@ -140,5 +140,5 @@ class Craw_data:
 
 if __name__=="__main__":
     crawData = Craw_data()
-    crawData.setKVideo(keyword='rap')
-    print(crawData.getKVideo())
+    crawData.setVComment(link='')
+    print(crawData.getVComment())
