@@ -127,13 +127,34 @@ class Craw_data:
         return self.kVideo
 
     def setVComment(self, link):
+        '''
+            Structure of "vComment"
+            {
+                "{Video Link}" : [{댓글1}, {댓글2}, ...]
+            }
+        '''
         self.vComment = dict()   # Store Comments of a Video
-        self.vComment[link] = dict()
+        self.vComment[link] = []
 
         self.driver.get(link)
         time.sleep(3)
 
         # Crawling start...
+        
+        # 페이지 맨 밑으로 내리기
+        scroll_count = 0
+        while scroll_count < 500:
+            scroll_position = 10000 + scroll_count * 10000
+            self.driver.execute_script(f"window.scrollTo(0,{scroll_position});")
+            time.sleep(1)
+            
+            scroll_count += 1
+
+        comments = self.driver.find_elements(By.CSS_SELECTOR,'yt-formatted-string#content-text')
+        time.sleep(2)
+
+        for comment in comments:
+            self.vComment[link].append(comment.text)
 
         self.driver.close()
 
@@ -141,6 +162,5 @@ class Craw_data:
         return self.vComment
 
 if __name__=="__main__":
-    crawData = Craw_data()
-    crawData.setVComment(link='https://www.youtube.com/watch?v=8C23JB50dYI&list=RD8C23JB50dYI&start_radio=1')
-    print(crawData.getVComment())
+    # Test
+    print()
