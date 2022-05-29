@@ -1,10 +1,11 @@
 #!/usr/bin/python
-
+#-*- coding: utf-8 -*-
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 import time
+from tqdm import tqdm
 
 class Craw_data:
     def __init__(self):
@@ -17,10 +18,7 @@ class Craw_data:
         options.add_experimental_option("excludeSwitches", ["enable-logging"])
         
         self.driver = webdriver.Chrome(service=service, options=options)
-        self.hVideo = dict()    # Store Home Videos Information 
-        self.kVideo = dict()    # Store Videos Information about the keyword
-        self.vComment = dict()   # Store Comments of a Video
-    
+
     def setHVideo(self, url='https://www.youtube.com/'):
         '''
             Structure of "hVideo"
@@ -36,6 +34,8 @@ class Craw_data:
                 ...
             }
         '''
+        self.hVideo = dict()    # Store Home Videos Information 
+
         self.driver.get(url)
         time.sleep(3)
 
@@ -49,7 +49,7 @@ class Craw_data:
         links = self.driver.find_elements(By.CSS_SELECTOR, "ytd-rich-grid-row a#video-title-link")
         time.sleep(2)
         
-        for idx in range(10):
+        for idx in tqdm(range(10)):
             link = links[idx].get_attribute('href')
             self.hVideo[link] = dict()
             self.hVideo[link]['title'] = titles[idx].text
@@ -61,7 +61,36 @@ class Craw_data:
         return self.hVideo
 
     def setKVideo(self, keyword, url='https://www.youtube.com/'):
+        '''
+            Structure of "kVideo"
+            {
+                "{keyword}" : {
+                    "{Video Link1}" : {
+                        "title" : "{Video Title}",
+                        "img" : "{Video Thumbnail Image}"
+                    },
+                    "{Video Link2}" : {
+                        "title" : "{Video Title}",
+                        "img" : "{Video Thumbnail Image}"
+                    },
+                    ...
+                },
+                "{keyword}" : {
+                    "{Video Link1}" : {
+                        "title" : "{Video Title}",
+                        "img" : "{Video Thumbnail Image}"
+                    },
+                    "{Video Link2}" : {
+                        "title" : "{Video Title}",
+                        "img" : "{Video Thumbnail Image}"
+                    },
+                    ...
+                },
+                ...
+            }
+        '''
         if len(keyword) > 0:
+            self.kVideo = dict()    # Store Videos Information about the keyword
             self.kVideo[keyword] = dict()
 
             self.driver.get(url)
@@ -69,20 +98,62 @@ class Craw_data:
 
             # Crawling start...
             self.driver.find_element(By.CSS_SELECTOR, "input#search").clear()
+            time.sleep(1)
+            self.driver.find_element(By.CSS_SELECTOR, "input#search").send_keys(keyword)
+            time.sleep(2)
+            self.driver.find_element(By.CSS_SELECTOR, "button#search-icon-legacy").click()
             time.sleep(2)
             
+            imgs = self.driver.find_elements(By.CSS_SELECTOR, "ytd-video-renderer a#thumbnail img#img")
+            time.sleep(2)
+
+            titles = self.driver.find_elements(By.CSS_SELECTOR, "#video-title > yt-formatted-string")
+            time.sleep(2)
+
+            links = self.driver.find_elements(By.CSS_SELECTOR, "ytd-video-renderer a#video-title")
+            time.sleep(2)
+            
+            for idx in tqdm(range(10)):
+               link = links[idx].get_attribute('href')
+               self.kVideo[keyword][link] = dict()
+               self.kVideo[keyword][link]['title'] = titles[idx].text
+               self.kVideo[keyword][link]['img'] = imgs[idx].get_attribute('src')
+
             self.driver.close()
+        else:
+            print("No Keyword...")
     
     def getKVideo(self):
         return self.kVideo
 
     def setVComment(self, link):
-        self.vComment[link] = dict()
+        '''
+            Structure of "vComment"
+            {
+                "{Video Link}" : [{댓글1}, {댓글2}, ...]
+            }
+        '''
+        self.vComment = dict()   # Store Comments of a Video
+        self.vComment[link] = []
 
         self.driver.get(link)
         time.sleep(3)
 
         # Crawling start...
+        # 페이지 맨 밑으로 내리기
+        scroll_count = 0
+        while scroll_count < 500:
+            scroll_position = 10000 + scroll_count * 10000
+            self.driver.execute_script(f"window.scrollTo(0,{scroll_position});")
+            time.sleep(1)
+            
+            scroll_count += 1
+
+        comments = self.driver.find_elements(By.CSS_SELECTOR,'yt-formatted-string#content-text')
+        time.sleep(2)
+
+        for comment in comments:
+            self.vComment[link].append(comment.text)
 
         self.driver.close()
 
@@ -90,6 +161,5 @@ class Craw_data:
         return self.vComment
 
 if __name__=="__main__":
-    crawData = Craw_data()
-    crawData.setHVideo()
-    print(crawData.getHVideo())
+    # Test
+    print()
