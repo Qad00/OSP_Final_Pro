@@ -1,3 +1,5 @@
+#!/usr/bin/python
+#-*- coding: utf-8 -*-
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
@@ -10,9 +12,9 @@ class Craw_data:
         chrome_driver = ChromeDriverManager().install()
         service = Service(chrome_driver)
         options = webdriver.ChromeOptions()
-        #options.add_argument('--headless')
-        #options.add_argument('--no-sandbox')
-        #options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('--headless')
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
         options.add_experimental_option("excludeSwitches", ["enable-logging"])
         
         self.driver = webdriver.Chrome(service=service, options=options)
@@ -117,7 +119,7 @@ class Craw_data:
                self.kVideo[keyword][link]['title'] = titles[idx].text
                self.kVideo[keyword][link]['img'] = imgs[idx].get_attribute('src')
 
-            #self.driver.close()
+            self.driver.close()
         else:
             print("No Keyword...")
     
@@ -140,5 +142,5 @@ class Craw_data:
 
 if __name__=="__main__":
     crawData = Craw_data()
-    crawData.setVComment(link='')
+    crawData.setVComment(link='https://www.youtube.com/watch?v=8C23JB50dYI&list=RD8C23JB50dYI&start_radio=1')
     print(crawData.getVComment())
