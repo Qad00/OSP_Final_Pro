@@ -25,17 +25,22 @@ class Craw_data:
             {
                 "{Video Link1}" : {
                     "title" : "{Video Title}",
-                    "img" : "{Video Thumbnail Image Link}"
+                    "img" : "{Video Thumbnail Image Link}",
+                    "hits" : "{Video Hits}",
+                    "likes" : "{Video Likes}"
                 },
                 "{Video Link2}" : {
                     "title" : "{Video Title}",
-                    "img" : "{Video Thumbnail Image Link}"
+                    "img" : "{Video Thumbnail Image Link}",
+                    "hits" : "{Video Hits}",
+                    "likes" : "{Video Likes}"
                 },
                 ...
             }
         '''
         self.hVideo = dict()    # Store Home Videos Information 
 
+        self.driver.maximize_window()
         self.driver.get(url)
         time.sleep(3)
 
@@ -49,13 +54,26 @@ class Craw_data:
         links = self.driver.find_elements(By.CSS_SELECTOR, "ytd-rich-grid-row a#video-title-link")
         time.sleep(2)
         
+        print('Part 1. Title, Image Crawling')
         for idx in tqdm(range(10)):
             link = links[idx].get_attribute('href')
             self.hVideo[link] = dict()
             self.hVideo[link]['title'] = titles[idx].text
             self.hVideo[link]['img'] = imgs[idx].get_attribute('src')
-        
-        self.driver.close()
+
+        print('Part 2. Hits, Like Crawling')
+        for link in tqdm(self.hVideo.keys()):
+            # 조회수, 좋아요 수 추출
+            self.driver.get(link)
+            time.sleep(3)
+
+            hits = self.driver.find_element(By.XPATH, '/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]/div/div[6]/div[1]/div[2]/ytd-video-primary-info-renderer/div/div/div[1]/div[1]/ytd-video-view-count-renderer/span[1]').text
+            time.sleep(2)
+            likes = self.driver.find_element(By.XPATH, '/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]/div/div[6]/div[1]/div[2]/ytd-video-primary-info-renderer/div/div/div[3]/div/ytd-menu-renderer/div[1]/ytd-toggle-button-renderer[1]/a/yt-formatted-string').text
+            time.sleep(2)
+
+            self.hVideo[link]['hits'] = hits
+            self.hVideo[link]['likes'] = likes
 
     def getHVideo(self):
         return self.hVideo
@@ -67,22 +85,30 @@ class Craw_data:
                 "{keyword}" : {
                     "{Video Link1}" : {
                         "title" : "{Video Title}",
-                        "img" : "{Video Thumbnail Image}"
+                        "img" : "{Video Thumbnail Image}",
+                        "hits" : "{Video Hits}",
+                        "likes" : "{Video Likes}"
                     },
                     "{Video Link2}" : {
                         "title" : "{Video Title}",
-                        "img" : "{Video Thumbnail Image}"
+                        "img" : "{Video Thumbnail Image}",
+                        "hits" : "{Video Hits}",
+                        "likes" : "{Video Likes}"
                     },
                     ...
                 },
                 "{keyword}" : {
                     "{Video Link1}" : {
                         "title" : "{Video Title}",
-                        "img" : "{Video Thumbnail Image}"
+                        "img" : "{Video Thumbnail Image}",
+                        "hits" : "{Video Hits}",
+                        "likes" : "{Video Likes}"
                     },
                     "{Video Link2}" : {
                         "title" : "{Video Title}",
-                        "img" : "{Video Thumbnail Image}"
+                        "img" : "{Video Thumbnail Image}",
+                        "hits" : "{Video Hits}",
+                        "likes" : "{Video Likes}"
                     },
                     ...
                 },
@@ -93,6 +119,7 @@ class Craw_data:
             self.kVideo = dict()    # Store Videos Information about the keyword
             self.kVideo[keyword] = dict()
 
+            self.driver.maximize_window()
             self.driver.get(url)
             time.sleep(3)
 
@@ -113,20 +140,33 @@ class Craw_data:
             links = self.driver.find_elements(By.CSS_SELECTOR, "ytd-video-renderer a#video-title")
             time.sleep(2)
             
+            print('Part 1. Title, Image Crawling')
             for idx in tqdm(range(10)):
                link = links[idx].get_attribute('href')
                self.kVideo[keyword][link] = dict()
                self.kVideo[keyword][link]['title'] = titles[idx].text
                self.kVideo[keyword][link]['img'] = imgs[idx].get_attribute('src')
+              
+            print('Part 2. Hits, Like Crawling')
+            for link in tqdm(self.kVideo[keyword].keys()):
+                # 조회수, 좋아요 수 추출
+                self.driver.get(link)
+                time.sleep(3)
 
-            self.driver.close()
+                hits = self.driver.find_element(By.XPATH, '/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]/div/div[6]/div[1]/div[2]/ytd-video-primary-info-renderer/div/div/div[1]/div[1]/ytd-video-view-count-renderer/span[1]').text
+                time.sleep(2)
+                likes = self.driver.find_element(By.XPATH, '/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]/div/div[6]/div[1]/div[2]/ytd-video-primary-info-renderer/div/div/div[3]/div/ytd-menu-renderer/div[1]/ytd-toggle-button-renderer[1]/a/yt-formatted-string').text
+                time.sleep(2)
+
+                self.kVideo[keyword][link]['hits'] = hits
+                self.kVideo[keyword][link]['likes'] = likes
         else:
             print("No Keyword...")
     
     def getKVideo(self):
         return self.kVideo
 
-    def setVComment(self, link):
+    def setVComment(self, link, sc_num=60):
         '''
             Structure of "vComment"
             {
@@ -136,29 +176,33 @@ class Craw_data:
         self.vComment = dict()   # Store Comments of a Video
         self.vComment[link] = []
 
+        self.driver.set_window_size(1020,1020)
         self.driver.get(link)
         time.sleep(3)
 
         # Crawling start...
-        # 페이지 맨 밑으로 내리기
+        # 페이지 맨 밑으로 내리기 (sc_num만큼)
+        print("Scrolling...")
         scroll_count = 0
-        while scroll_count < 500:
+        while scroll_count < sc_num:
             scroll_position = 10000 + scroll_count * 10000
             self.driver.execute_script(f"window.scrollTo(0,{scroll_position});")
             time.sleep(1)
-            
-            scroll_count += 1
 
+            scroll_count += 1
+        
+        print("Comment Finding...")
         comments = self.driver.find_elements(By.CSS_SELECTOR,'yt-formatted-string#content-text')
         time.sleep(2)
 
         for comment in comments:
             self.vComment[link].append(comment.text)
 
-        self.driver.close()
-
     def getVComment(self):
         return self.vComment
+
+    def closeDriver(self):
+        self.driver.close()
 
 if __name__=="__main__":
     # Test
