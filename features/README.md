@@ -76,7 +76,7 @@
 - Whenever you need the crawled data, you can call the class method.
 - The structure of crawled data
 {
-    "{Video Link}" : [{´ñ±Û1}, {´ñ±Û2}, ...]
+    "{Video Link}" : [{comment1}, {comment2}, ...]
 }
 
 6. Driver close
