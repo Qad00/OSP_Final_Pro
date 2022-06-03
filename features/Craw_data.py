@@ -209,10 +209,3 @@ class Craw_data:
 if __name__ == "__main__":
     # Test
     print()
-B
-B
-B
-B
-B
-B
-    print()
