@@ -1,0 +1,54 @@
+.top-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 20vh;
+}
+
+.col-auto {
+  padding-left: 0;
+}
+
+.form-control{
+  width: 20vw;
+}
+
+.middle-container {
+  display: flex;
+  justify-content: center;
+  padding-top: 10vh;
+}
+
+
+.g-0 {
+  width:45vw;
+}
+
+.col-md-4{
+  display: flex;
+  align-items: center;
+  width:13vw;
+  height:100%;
+}
+
+.col-md-8{
+  display: flex;
+  align-items: center;
+}
+
+.img-fluid{
+  width:100%;
+  height:100%;
+  display: block; 
+  margin: 0px auto;
+
+}
+.card-body{
+  
+}
+
+.btn-body{
+  width: 10vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
