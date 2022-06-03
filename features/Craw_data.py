@@ -146,7 +146,7 @@ class Craw_data:
                self.kVideo[keyword][link] = dict()
                self.kVideo[keyword][link]['title'] = titles[idx].text
                self.kVideo[keyword][link]['img'] = imgs[idx].get_attribute('src')
-            
+              
             print('Part 2. Hits, Like Crawling')
             for link in tqdm(self.kVideo[keyword].keys()):
                 # 조회수, 좋아요 수 추출
