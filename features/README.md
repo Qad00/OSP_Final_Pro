@@ -82,7 +82,7 @@
 - The structure of crawled data
 ```json
 {
-    "{Video Link}" : [{comment1}, {comment2}, ...]
+    "{Video Link}" : ["{comment1}", "{comment2}", ...]
 }
 ```
 
