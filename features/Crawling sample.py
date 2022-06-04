@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 #-*- coding: utf-8 -*-
 # 필요한 library 가져오기
 from selenium import webdriver
@@ -17,8 +18,12 @@ import csv
 chrome_driver = ChromeDriverManager().install()
 service = Service(chrome_driver)
 options = webdriver.ChromeOptions()
+#options.add_argument('--headless')
+#options.add_argument('--no-sandbox')
+#options.add_argument('--disable-dev-shm-usage')
 options.add_experimental_option("excludeSwitches", ["enable-logging"])
 driver = webdriver.Chrome(service=service, options=options)
+#driver = webdriver.Chrome(service=service, options=options, executable_path="/usr/local/bin/chromedriver")
 
 # 유튜브 웹 페이지 접속
 yt_url = 'https://www.youtube.com/'
