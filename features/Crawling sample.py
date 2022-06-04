@@ -1,3 +1,4 @@
+#!/usr/bin/python
 #-*- coding: utf-8 -*-
 # 필요한 library 가져오기
 from selenium import webdriver
@@ -17,6 +18,9 @@ import csv
 chrome_driver = ChromeDriverManager().install()
 service = Service(chrome_driver)
 options = webdriver.ChromeOptions()
+options.add_argument('--headless')
+options.add_argument('--no-sandbox')
+options.add_argument('--disable-dev-shm-usage')
 options.add_experimental_option("excludeSwitches", ["enable-logging"])
 driver = webdriver.Chrome(service=service, options=options)
 
