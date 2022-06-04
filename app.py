@@ -16,7 +16,7 @@ app = Flask(__name__)
 # action post
 @app.route('/')
 def index():
-    return render_template('home_page.html')
+    return render_template('result_page.html')
 
 
 # @app.route('/result_page', methods=['POST'])

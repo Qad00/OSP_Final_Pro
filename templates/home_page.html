@@ -12,9 +12,10 @@
         Url <input name="url" type="text">
 		<button type="submit"> word frequency </button>
     </form>  -->
-    <div class="top-container">
-      <form class="row gy-2 gx-3 align-items-center">
-
+    <div class="fixed-container" style="z-index:2">
+      <div class="top-container">
+        <form class="row gy-2 gx-3 align-items-center">
+  
           <div class="col-auto">
               <label class="visually-hidden" for="autoSizingSelect">Preference</label>
               <select class="form-select" id="autoSizingSelect">
@@ -32,26 +33,30 @@
           </div>
         </form>
       </div>
-      <div class="middle-container">
-        <div class="card mb-3" style="max-width: 60vw;">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <img src="../static/images/youtube_logo.jpg" class="img-fluid rounded-start" alt="썸네일">
-            </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                
+    </div>
+    
+    <div class="middle-container" style="z-index:1">
+      {% for i in range(10)%}
+      <div class="card mb-3" style="max-width: 60vw;">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="../static/images/youtube_logo.jpg" class="img-fluid rounded-start" alt="썸네일">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">Card title</h5>
+              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+              
 
-              </div>
-              <div class="btn-body">
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>              
             </div>
+            <div class="btn-body">
+              <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>              
           </div>
         </div>
       </div>
+      {% endfor %}
+    </div>
 </body>
 </html>
