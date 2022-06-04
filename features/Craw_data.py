@@ -67,9 +67,9 @@ class Craw_data:
             self.driver.get(link)
             time.sleep(3)
 
-            hits = self.driver.find_element(By.XPATH, '/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]/div/div[6]/div[1]/div[2]/ytd-video-primary-info-renderer/div/div/div[1]/div[1]/ytd-video-view-count-renderer/span[1]').text
+            hits = self.driver.find_element(By.CSS_SELECTOR, 'div#info ytd-video-view-count-renderer span.view-count.style-scope.ytd-video-view-count-renderer').text
             time.sleep(2)
-            likes = self.driver.find_element(By.XPATH, '/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]/div/div[6]/div[1]/div[2]/ytd-video-primary-info-renderer/div/div/div[3]/div/ytd-menu-renderer/div[1]/ytd-toggle-button-renderer[1]/a/yt-formatted-string').text
+            likes = self.driver.find_element(By.CSS_SELECTOR, 'div#menu-container a.yt-simple-endpoint.style-scope.ytd-toggle-button-renderer yt-formatted-string#text').text
             time.sleep(2)
 
             self.hVideo[link]['hits'] = hits
@@ -153,9 +153,9 @@ class Craw_data:
                 self.driver.get(link)
                 time.sleep(3)
 
-                hits = self.driver.find_element(By.XPATH, '/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]/div/div[6]/div[1]/div[2]/ytd-video-primary-info-renderer/div/div/div[1]/div[1]/ytd-video-view-count-renderer/span[1]').text
+                hits = self.driver.find_element(By.CSS_SELECTOR, 'div#info ytd-video-view-count-renderer span.view-count.style-scope.ytd-video-view-count-renderer').text
                 time.sleep(2)
-                likes = self.driver.find_element(By.XPATH, '/html/body/ytd-app/div[1]/ytd-page-manager/ytd-watch-flexy/div[5]/div[1]/div/div[6]/div[1]/div[2]/ytd-video-primary-info-renderer/div/div/div[3]/div/ytd-menu-renderer/div[1]/ytd-toggle-button-renderer[1]/a/yt-formatted-string').text
+                likes = self.driver.find_element(By.CSS_SELECTOR, 'div#menu-container a.yt-simple-endpoint.style-scope.ytd-toggle-button-renderer yt-formatted-string#text').text
                 time.sleep(2)
 
                 self.kVideo[keyword][link]['hits'] = hits
