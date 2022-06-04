@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-#!/usr/bin/python3
-=======
 #!/usr/bin/python
->>>>>>> 217d6e7e8805881fde22a001eecf25d43329ebc7
 #-*- coding: utf-8 -*-
 # 필요한 library 가져오기
 from selenium import webdriver
