@@ -155,10 +155,8 @@ class Craw_data:
 
                 hits = self.driver.find_element(By.CSS_SELECTOR, 'div#info ytd-video-view-count-renderer span.view-count.style-scope.ytd-video-view-count-renderer').text
                 time.sleep(2)
-                print(hits)
                 likes = self.driver.find_element(By.CSS_SELECTOR, 'div#menu-container a.yt-simple-endpoint.style-scope.ytd-toggle-button-renderer yt-formatted-string#text').text
                 time.sleep(2)
-                print(likes)
 
                 self.kVideo[keyword][link]['hits'] = hits
                 self.kVideo[keyword][link]['likes'] = likes
