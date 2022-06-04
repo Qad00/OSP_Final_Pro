@@ -17,3 +17,7 @@ sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable
 sudo apt-get install -y google-chrome-stable
  
 pip install webdriver-manager
+
+
+# run base 
+python3 app.py --listen-port 5000
