@@ -1,23 +1,23 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 
 import sys
 from elasticsearch import Elasticsearch
 
 es_host ="http://localhost:9200"
 
-def search_list(word,result): # word : string, result : list
-	e1={ word:list(result)
+def search_list(word,result): # word : string, result : dict
+	e1={ word:result
 	   }
 	return e1
 
 
-def url_result(url,title,hits,good,bad,num,pn,p_percent,p_word,n_word,file_path): 
-# url : 유투브 링크, title : 유투브 제목, hits : 조회수, good : 좋아요, bad : 싫어요, num : 분석 결과 개수, pn : 긍정인지 부정인지, p_percent : 긍정 퍼센트, p_word : 긍정 단어, n_word : 부정 단어, file_path : wordcloud 파일 경로
-# url : string, title : string, hits : integer, good : integer, bad : integer num: integer, pn : integer(0-positive/1-negetive), p_percent : integer, p_word : list, n_word : list, file_path: string
+def url_result(url,title,image,hits,good,num,pn,p_percent,p_word,n_word,file_path): 
+# url : 유투브 링크, title : 유투브 제목, image : 썸네일, hits : 조회수, good : 좋아요, num : 분석 결과 개수, pn : 긍정인지 부정인지, p_percent : 긍정 퍼센트, p_word : 긍정 단어, n_word : 부정 단어, file_path : wordcloud 파일 경로
+# url : string, title : string, image : string, hits : integer, good : integer, num: integer, pn : integer(0-positive/1-negetive), p_percent : integer, p_word : list, n_word : list, file_path: string
 	e2={ url:{"title":title,
+		  "image" : image,
 		  "hits":hits,
 		  "good" : good,
-		  "bad" : bad,
 		  "result number": num,
 	          "positive/negetive" : pn,
 	          "positive percent" : p_percent,
@@ -48,8 +48,8 @@ def search(idx): # all print
 # test code
 #if __name__== '__main__':
 #	es = Elasticsearch(es_host)
-	
-#	print(insert('search',1,search_list('aa',[1,2,3])))
-#	print(insert('result',1,url_result("AA",'bbb',1000,50,2,100,1,80,[1,2,3],[4,5,6],"example")))
+#	e2=url_result("AA",'bbb','image',1000,50,100,1,80,[1,2,3],[4,5,6],"example")
+#	print(insert('result',1,e2))
+#	print(insert('search',3,search_list('ee',dict(e2))))
 #	search('result')
 #	search('search')
