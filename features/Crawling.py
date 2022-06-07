@@ -7,7 +7,7 @@ from selenium.webdriver.common.by import By
 import time
 from tqdm import tqdm
 
-class Craw_data:
+class Crawling:
     def __init__(self):
         chrome_driver = ChromeDriverManager().install()
         service = Service(chrome_driver)

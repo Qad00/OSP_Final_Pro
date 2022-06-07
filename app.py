@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 
 from flask import Flask, render_template, request
-from features import Craw_data
+from features import Crawling
 from features.comment_research import research_data
-from features.word_cloud import make_word_cloud
+from features.WordCloud import make_word_cloud
 from features.url_type import check_url_type
 from features.url_type import get_video_id
 
@@ -35,7 +35,7 @@ def result():
     video_id = get_video_id(given_url)
 
             # crawling video comments with given url
-    crawled_data = Craw_data().getComments(given_url)
+    crawled_data = Crawling().getComments(given_url)
 
             # make word cloud from crawled data
     word_cloud = make_word_cloud(crawled_data)
@@ -47,7 +47,6 @@ def result():
 
     # return parameters and asked research, to result_page from db
     return render_template("result_page.html", video_id=video_id, word_cloud=word_cloud, research_res=research_res)
-
 
 if __name__ == '__main__':
     app.run()
