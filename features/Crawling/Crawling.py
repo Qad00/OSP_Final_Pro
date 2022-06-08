@@ -183,7 +183,7 @@ class Crawling:
             }
         '''
         self.vComment = dict()   # Store Comments of a Video
-        self.vComment[link] = []
+        self.vComment[link] = list()
 
         self.driver.set_window_size(1020,1020)
         self.driver.get(link)
@@ -218,5 +218,5 @@ class Crawling:
         self.driver.quit()
 
 if __name__=="__main__":
-    # Test
-    print()
+    print('Testing Start...')
+    # ...
