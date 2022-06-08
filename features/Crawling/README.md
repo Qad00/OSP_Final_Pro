@@ -2,8 +2,9 @@
 
 ## Crawling Class Description
 <details>
-<summary> Crawling 설명서 </summary>
+<summary> Crawling Explain </summary>
 <div markdown='1'>
+
 ### Using Library
 - "selenium"
 - "webdriver_manager"
@@ -99,8 +100,16 @@ When you close the driver after the crawling in each time, Session id error can 
 
 ## Preprocessing Class Description
 <details>
-<summary>Preprocessing 설명서</summary>
+<summary>Preprocessing Explain</summary>
 <div markdown='1'>
-### Structure of 
+
+### Structure of Preprocessing Class
+#### Constructor Parts
+- Define Special Characters, Emoticons (Unicode Range), Alphabet (Unicode Range)
+
+#### Data Processing Parts
+- Break the comments into several sentences based on line feed and store the sentences in class variable.
+- Break the sentences into several words based on white space and erase special characters or emoticons in the word. And then store the words in class variable.
+- If you need the processed data, you can call the class method.
 </div>
 </details>
