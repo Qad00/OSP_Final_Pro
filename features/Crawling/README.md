@@ -103,11 +103,16 @@ When you close the driver after the crawling in each time, Session id error can 
 <summary>Preprocessing Explain</summary>
 <div markdown='1'>
 
+### Using Library
+- "re"
+- "tqdm"
+- "Crawling" (Option)
+
 ### Structure of Preprocessing Class
-#### Constructor Parts
+#### 1. Constructor Parts
 - Define Special Characters, Emoticons (Unicode Range), Alphabet (Unicode Range)
 
-#### Data Processing Parts
+#### 2. Data Processing Parts
 - Break the comments into several sentences based on line feed and store the sentences in class variable.
 - Break the sentences into several words based on white space and erase special characters or emoticons in the word. And then store the words in class variable.
 - If you need the processed data, you can call the class method.
