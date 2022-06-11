@@ -6,7 +6,6 @@ import re
 
 class Preprocessing:
     def __init__(self):
-        self.token = ' \n~`!@#$%^&*()?/<>,.:;\'"{}[]-_=+'
         self.emoticon = re.compile('['
             u"\U00002700-\U000027BF"    # Dingbats
             u"\U0001F600-\U0001F64F"    # Emoticons
@@ -17,10 +16,9 @@ class Preprocessing:
             u"\U0001F680-\U0001F6FF"    # Transport & Map Symbols
             u"\U0001F1E0-\U0001F1FF"    # Flags (iOS)
         ']+', flags=re.UNICODE)
-        self.alphabet = re.compile('['
-            u"\U00000041-\U0000005A"    # Big Alphabet
-            u"\U00000061-\U0000007A"    # Small Alphabet
-        ']+', flags=re.UNICODE)
+        self.token = ' \n~`!@#$%^&*()?/<>,.:;\'"{}[]-_=+'
+        self.alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        self.number = '0123456789'
 
     def processData(self, data):
         print("Preprocess Start...")
@@ -36,10 +34,20 @@ class Preprocessing:
         self.words = list()
         for sentence in tqdm(self.sentences):
             for word in sentence.split(' '):
-                self.words.append(self.emoticon.sub(r'',word).strip(self.token))
+                # Delete Emoticons
+                word = self.emoticon.sub(r'',word)
+                # Delete Special Characters
+                word = word.strip(self.token)
+                # Delete Alphabets
+                word = word.strip(self.alphabet)
+                # Delete Numbers
+                word = word.strip(self.number)
+                # Store the word
+                self.words.append(word)
     
     def getData(self):
         return self.words
 
 if __name__=='__main__':
     print('Testing Start...')
+    #...
