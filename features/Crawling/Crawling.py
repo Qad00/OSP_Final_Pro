@@ -1,5 +1,5 @@
 #!/usr/bin/python
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
@@ -17,7 +17,7 @@ class Crawling:
         options.add_argument('--disable-dev-shm-usage')
         options.add_argument('--window-size=1920x1080')
         options.add_experimental_option("excludeSwitches", ["enable-logging"])
-        
+
         self.driver = webdriver.Chrome(service=service, options=options)
 
     def setHVideo(self, url='https://www.youtube.com/'):
@@ -39,12 +39,12 @@ class Crawling:
                 ...
             }
         '''
-        self.hVideo = dict()    # Store Home Videos Information 
+        self.hVideo = dict()  # Store Home Videos Information
 
         self.driver.maximize_window()
         self.driver.get(url)
         time.sleep(3)
-        
+
         # Crawling start...
         print('Part 1. Title, Image Crawling')
         with tqdm(total=10) as pbar:
@@ -72,9 +72,11 @@ class Crawling:
             self.driver.get(link)
             time.sleep(3)
 
-            hits = self.driver.find_element(By.CSS_SELECTOR, 'div#info ytd-video-view-count-renderer span.view-count.style-scope.ytd-video-view-count-renderer').text
+            hits = self.driver.find_element(By.CSS_SELECTOR,
+                                            'div#info ytd-video-view-count-renderer span.view-count.style-scope.ytd-video-view-count-renderer').text
             time.sleep(2)
-            likes = self.driver.find_element(By.CSS_SELECTOR, 'div#menu-container a.yt-simple-endpoint.style-scope.ytd-toggle-button-renderer yt-formatted-string#text').text
+            likes = self.driver.find_element(By.CSS_SELECTOR,
+                                             'div#menu-container a.yt-simple-endpoint.style-scope.ytd-toggle-button-renderer yt-formatted-string#text').text
             time.sleep(2)
 
             self.hVideo[link]['hits'] = hits
@@ -121,7 +123,7 @@ class Crawling:
             }
         '''
         if len(keyword) > 0:
-            self.kVideo = dict()    # Store Videos Information about the keyword
+            self.kVideo = dict()  # Store Videos Information about the keyword
             self.kVideo[keyword] = dict()
 
             self.driver.maximize_window()
@@ -135,7 +137,7 @@ class Crawling:
             time.sleep(2)
             self.driver.find_element(By.CSS_SELECTOR, "button#search-icon-legacy").click()
             time.sleep(2)
-            
+
             print('Part 1. Title, Image Crawling')
             with tqdm(total=10) as pbar:
                 idx = 0
@@ -162,20 +164,22 @@ class Crawling:
                 self.driver.get(link)
                 time.sleep(3)
 
-                hits = self.driver.find_element(By.CSS_SELECTOR, 'div#info ytd-video-view-count-renderer span.view-count.style-scope.ytd-video-view-count-renderer').text
+                hits = self.driver.find_element(By.CSS_SELECTOR,
+                                                'div#info ytd-video-view-count-renderer span.view-count.style-scope.ytd-video-view-count-renderer').text
                 time.sleep(2)
-                likes = self.driver.find_element(By.CSS_SELECTOR, 'div#menu-container a.yt-simple-endpoint.style-scope.ytd-toggle-button-renderer yt-formatted-string#text').text
+                likes = self.driver.find_element(By.CSS_SELECTOR,
+                                                 'div#menu-container a.yt-simple-endpoint.style-scope.ytd-toggle-button-renderer yt-formatted-string#text').text
                 time.sleep(2)
 
                 self.kVideo[keyword][link]['hits'] = hits
-                self.kVideo[keyword][link]['likes'] = likes
+                self.kVideo[keyword][link]['good'] = likes
         else:
             print("No Keyword...")
-    
+
     def getKVideo(self):
         return self.kVideo
 
-    def setVComment(self, link, sc_num=60):
+    def setVComment(self, link, sc_num=15):
         '''
             Structure of "vComment"
             {
@@ -185,7 +189,7 @@ class Crawling:
         self.vComment = dict()   # Store Comments of a Video
         self.vComment[link] = list()
 
-        self.driver.set_window_size(1020,1020)
+        self.driver.set_window_size(1020, 1020)
         self.driver.get(link)
         time.sleep(3)
 
@@ -201,9 +205,9 @@ class Crawling:
 
                 pbar.update(1)
                 scroll_count += 1
-        
+
         print("Comment Finding...")
-        comments = self.driver.find_elements(By.CSS_SELECTOR,'yt-formatted-string#content-text')
+        comments = self.driver.find_elements(By.CSS_SELECTOR, 'yt-formatted-string#content-text')
         time.sleep(2)
 
         print("Comment Storing...")
