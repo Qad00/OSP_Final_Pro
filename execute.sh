@@ -20,7 +20,15 @@ sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable
 sudo apt-get install -y google-chrome-stable
  
 pip install webdriver-manager
+<<<<<<< HEAD
+pip install wordcloud
+
+# run base 
+python3 app.py --listen-port 5000
+
+=======
 
 
 # run base 
 python3 app.py --listen-port 5000
+>>>>>>> 29dc9c0a4104992480b11252a4f017f0b95c3c57

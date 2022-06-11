@@ -8,14 +8,14 @@
     <title>Home</title>
 </head>
 <body>
-    <!-- <form method="POST" action="/result_page">  
+    <!-- <form method="POST" action="/result_page">
         Url <input name="url" type="text">
 		<button type="submit"> word frequency </button>
     </form>  -->
     <div class="fixed-container" style="z-index:2">
       <div class="top-container">
-        <form class="row gy-2 gx-3 align-items-center">
-  
+        <form class="row gy-2 gx-3 align-items-center" action="/searched_word_result_page">
+
           <div class="col-auto">
               <label class="visually-hidden" for="autoSizingSelect">Preference</label>
               <select class="form-select" id="autoSizingSelect">
@@ -26,7 +26,7 @@
           </div>
           <div class="col-auto">
             <label class="visually-hidden" for="autoSizingInput">Name</label>
-            <input type="text" class="form-control" id="autoSizingInput" placeholder="검색어 혹은 URL을 입력해주세요">
+            <input type="text" class="form-control" name="word_in_searching_field" id="autoSizingInput" placeholder="검색어 혹은 URL을 입력해주세요">
           </div>
           <div class="col-auto">
             <button type="submit" class="btn btn-primary">Submit</button>
@@ -34,9 +34,9 @@
         </form>
       </div>
     </div>
-    
+
     <div class="middle-container" style="z-index:1">
-      {% for i in range(10)%}
+      {% for link in videos_data.keys() %}
       <div class="card mb-3" style="max-width: 60vw;">
         <div class="row g-0">
           <div class="col-md-4">
@@ -44,15 +44,15 @@
           </div>
           <div class="col-md-8">
             <div class="card-body">
-              <h5 class="card-title">Card title</h5>
+              <h5 class="card-title">{{videos_data[link]['title']}}</h5>
               <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
               <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-              
+
 
             </div>
             <div class="btn-body">
-              <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>              
+              <a href="{{url_for('result', my_var=link)}}" class="btn btn-primary">Go somewhere</a>
+            </div>
           </div>
         </div>
       </div>
