@@ -6,6 +6,7 @@ from flask import Flask, render_template, request
 #from features.word_cloud import make_word_cloud
 #from features.url_type import check_url_type
 #from features.url_type import get_video_id
+from features.db.elasticsearch import *
 
 app = Flask(__name__)
 
@@ -14,10 +15,11 @@ app = Flask(__name__)
 
 # go to homepage and get youtube video link
 # action post
-@app.route('/')
-def index():
+
+# @app.route('/')
+# def index():
     
-    return render_template('result_page.html')
+#     return render_template('result_page.html')
 
 
 # @app.route('/result_page', methods=['POST'])
@@ -51,4 +53,21 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run()
+    # test={ url:{"title":title,
+    #             "image" : image,
+    #             "hits":hits,
+    #             "good" : good,
+    #             "result number": num,
+    #             "positive/negetive" : pn,
+    #             "positive percent" : p_percent,
+    #             "positive word": list(p_word),
+    #             "negetive word": list(n_word),
+    #             "word cloud" : file_path
+    #         }
+    #     }
+    # es_host ="http://localhost:9200"
+    # es = Elasticsearch(es_host)
+    test=url_result("url",'title_name','image_name',1000,50,100,1,80,[1,2,3],[4,5,6],"example")
+    print(insert('result',1,test))
+    search('result')
+    # app.run()
