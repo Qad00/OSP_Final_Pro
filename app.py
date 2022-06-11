@@ -2,13 +2,7 @@
 import argparse
 from flask import Flask, render_template, request
 from features.Craw_data import Crawling as Craw_data
-from features import prepro
-from features.Preprocessing import Preprocessing
-from models import Kkma
-from dataset.knusl import KnuSL
 from features.db import elasticsearch
-from features import test
-from features.db import emotion_analysis
 
 app = Flask(__name__)
 
