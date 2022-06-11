@@ -75,6 +75,7 @@ def required_videos():
 
 
 l = 1
+k = 1
 # run after one of video was clicked
 @app.route('/result_page', methods=['GET', 'POST'])
 def result():
