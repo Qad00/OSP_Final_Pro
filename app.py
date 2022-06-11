@@ -77,7 +77,7 @@ def required_videos():
     print("Searched word result page --> Success")
     crawData.closeDriver()
     print("Driver closed")
-    return render_template("searched_word_result_page.html", keyword=keyword, videos_data=videos_data)
+    return render_template("searched_word_result_page.html", keyword=keyword, videos_data=videos_data[keyword])
 
 #             # get research result that was done
 #     research_res = research_data(crawled_data)
