@@ -172,7 +172,7 @@ class Crawling:
                 time.sleep(2)
 
                 self.kVideo[keyword][link]['hits'] = hits
-                self.kVideo[keyword][link]['good'] = likes
+                self.kVideo[keyword][link]['likes'] = likes
         else:
             print("No Keyword...")
 

@@ -1,6 +1,5 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
-from Crawling import Crawling
 from tqdm import tqdm
 import re
 
