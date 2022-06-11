@@ -2,17 +2,73 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Research result_page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <link href="../static/assets/result_page.css" rel="stylesheet">
+    <script src="../static/aseets/result_page.js"></script>
+    <title>Result page</title>
 </head>
 <body>
-    <form method="POST" action="/searched_word_result_page">
-        <p> input keyword <input type="text" name="word_in_searching_field"></p>
-        <input type="submit" value="search">
-    </form><br/><br/><br/>
- <p>Show vidoe from given link in db</p><br/>
- <p1>show graph with percentage from result in db </p1><br/>
- <p1>Give some text explanation about reach result</p1><br/>
-    <p1>Show word cloud from db</p1><br/>
+    <!-- <form method="POST" action="/result_page">
+        Url <input name="url" type="text">
+		<button type="submit"> word frequency </button>
+    </form>  -->
+    <div class="fixed-container" style="z-index:2">
+      <div class="top-container">
+        <form class="row gy-2 gx-3 align-items-center" action="/searched_word_result_page">
+
+          <div class="col-auto">
+              <label class="visually-hidden" for="autoSizingSelect">Preference</label>
+              <select class="form-select" id="autoSizingSelect">
+                <option selected>Choose...</option>
+                <option value="1">Words</option>
+                <option value="2">Url</option>
+              </select>
+          </div>
+          <div class="col-auto">
+            <label class="visually-hidden" for="autoSizingInput">Name</label>
+            <input type="text" class="form-control" name="word_in_searching_field" id="autoSizingInput" placeholder="검색어 혹은 URL을 입력해주세요">
+          </div>
+          <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+
+    <div class="middle-container" style="z-index:1">
+        <iframe width="600" height="400" src="https://www.youtube.com/embed/cbuZfY2S2UQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <!-- <DIV class=video-container style="TEXT-ALIGN: center"><object type="text/html" width="100%" height="500" data="//www.youtube.com/watch?v=nhAR2-WIM-I" allowFullScreen></object> </DIV> -->
+
+        <!-- <div class="donut" data-percent="85.4"></div>
+        <script>
+            let t4 = 0
+            const donut = document.querySelector(".donut")
+            const donutAnimation = setInterval(() => {
+                donut.dataset.percent = t4
+                donut.style.background = `conic-gradient(#4F98FF 0 ${t4}%, #DEDEDE ${t4}% 100% )`
+                t4++ >= 85.4 && clearInterval(donutAnimation)
+            }, 10)
+        </script> -->
+        <div class="progress-bar">
+            <div class="progress"> </div>
+            </div>
+            <script>
+            let t = 0
+            const bar = document.querySelector(".progress")
+            bar.style.width = 0
+            const barAnimation = setInterval(() => {
+            bar.style.width =  t + '%'
+            t++ >= 72 && clearInterval(barAnimation)
+            }, 10)
+            </script>
+
+
+
+    </div>
+    <!-- <div class="zt-skill-bar"><div data-width="88" style="">쇼핑몰<span>88%</span></div></div> -->
+
 </body>
 </html>
-
