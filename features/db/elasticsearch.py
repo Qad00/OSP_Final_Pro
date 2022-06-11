@@ -5,20 +5,35 @@ from elasticsearch import Elasticsearch
 
 es_host ="http://localhost:9200"
 
-def search_list(word,result): # word : string, result : dict
+def search_list(word,result): # word : string, result : dict(db1)
 	e1={ word:result
 	   }
 	return e1
 
+# db1 : url : 유투브 링크, title : 유투브 제목, image : 썸네일, hits : 조회수, good : 좋아요
+# db2 : list
+# db3 : num : 분석 결과 개수, pn : 긍정인지 부정인지, p_percent : 긍정 퍼센트, p_word : 긍정 단어, n_word : 부정 단어, file_path : wordcloud 파일 경로
 
-def url_result(url,title,image,hits,good,num,pn,p_percent,p_word,n_word,file_path): 
-# url : 유투브 링크, title : 유투브 제목, image : 썸네일, hits : 조회수, good : 좋아요, num : 분석 결과 개수, pn : 긍정인지 부정인지, p_percent : 긍정 퍼센트, p_word : 긍정 단어, n_word : 부정 단어, file_path : wordcloud 파일 경로
-# url : string, title : string, image : string, hits : integer, good : integer, num: integer, pn : integer(0-positive/1-negetive), p_percent : integer, p_word : list, n_word : list, file_path: string
+def db1(url,title,image,hits,good): 
+# url : 유투브 링크, title : 유투브 제목, image : 썸네일, hits : 조회수, good : 좋아요
+# url : string, title : string, image : string, hits : integer, good : integer
 	e2={ url:{"title":title,
 		  "image" : image,
 		  "hits":hits,
 		  "good" : good,
-		  "result number": num,
+	         }
+	   }
+	return e2;
+
+def db2(comments):
+# comments : 댓글, list
+	e2={"comments":comments}
+	return e2;
+
+def db3(num,pn,p_percent,p_word,n_word,file_path): 
+#num : 분석 결과 개수, pn : 긍정인지 부정인지, p_percent : 긍정 퍼센트, p_word : 긍정 단어, n_word : 부정 단어, file_path : wordcloud 파일 경로
+#num: integer, pn : integer(0-positive/1-negetive), p_percent : integer, p_word : list, n_word : list, file_path: string
+	e2={ url:{"result number": num,
 	          "positive/negetive" : pn,
 	          "positive percent" : p_percent,
 	          "positive word": list(p_word),
@@ -27,7 +42,7 @@ def url_result(url,title,image,hits,good,num,pn,p_percent,p_word,n_word,file_pat
 	         }
 	   }
 	return e2;
-
+	
 def insert(idx, i, doc): 
 # idx : string, i : integer, doc : document
 	res = es.index(index=idx, id=i, document=doc)
@@ -45,7 +60,7 @@ def search(idx): # all print
 	for doc in docs['hits']['hits']:
 		print(doc['_source'])
 		
-# test code
+# need testing!
 #if __name__== '__main__':
 #	es = Elasticsearch(es_host)
 #	e2=url_result("AA",'bbb','image',1000,50,100,1,80,[1,2,3],[4,5,6],"example")
