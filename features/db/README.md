@@ -17,7 +17,7 @@
    출처 :  https://github.com/park1200656/KnuSentiLex
 
 4. vader : vader 방식을 이용해 댓글 문장 전체를 긍정, 부정 판단하는 것
- - detScore : 2에서 2까지 분류
+ - detScore : -2에서 2까지(강한 부정에서 강한 긍정으로) 분류
  - vader : vader 방식을 이용해 예측, predict에 -2에서 2까지 표시됨
 
-5. sample_vader : vader의 예시 코드, youtube_title.csv를 이용해 
+5. sample_vader : vader의 예시 코드, youtube_title.csv를 이용해 예측해 보았다
