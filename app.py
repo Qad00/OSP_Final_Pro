@@ -3,13 +3,7 @@
 import argparse
 from flask import Flask, render_template, request
 from features.Craw_data import Crawling as Craw_data
-from features import prepro
-from features.Preprocessing import Preprocessing
-from models import Kkma
-from dataset.knusl import KnuSL
 from features.db import elasticsearch
-from features import test
-from features.db import emotion_analysis
 
 app = Flask(__name__)
 
@@ -130,7 +124,11 @@ def required_videos():
     crawData.closeDriver()
     print("Driver closed")
 <<<<<<< HEAD
+<<<<<<< HEAD
     return render_template("searched_word_result_page.html", keyword=keyword, videos_data=videos_data)
+=======
+    return render_template("searched_word_result_page.html", keyword=keyword, videos_data=videos_data[keyword])
+>>>>>>> 74cafa35aeec9a290c5e63f2905b2719dbaeafee
 
 
 =======
@@ -142,6 +140,7 @@ def required_videos():
 k = 1
 >>>>>>> dd03c63b1c7bb3773bde2959f17d6debc2cbb310
 l = 1
+k = 1
 # run after one of video was clicked
 @app.route('/result_page', methods=['GET', 'POST'])
 def result():
