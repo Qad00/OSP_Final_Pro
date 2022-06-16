@@ -16,7 +16,7 @@
  - neg_pol_word.csv/ pos_pol_word.csv : 긍정, 부정 단어
    출처 :  https://github.com/park1200656/KnuSentiLex
 
-4. vader : vader 방식을 이용해 댓글 문장 전체를 긍정, 부정 판단하는 것
+4. vader : vader 방식을 이용해 댓글 문장 전체를 긍정, 부정 판단하는 것 --> 한글 적용 안됨...
  - detScore : -2에서 2까지(강한 부정에서 강한 긍정으로) 분류
  - vader : vader 방식을 이용해 예측, predict에 -2에서 2까지 표시됨
 
