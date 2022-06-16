@@ -7,7 +7,10 @@ from selenium.webdriver.common.by import By
 import time
 from tqdm import tqdm
 
+<<<<<<< HEAD:features/Craw_data.py
 
+=======
+>>>>>>> dd03c63b1c7bb3773bde2959f17d6debc2cbb310:features/Data_process/Crawling.py
 class Crawling:
     def __init__(self):
         chrome_driver = ChromeDriverManager().install()
@@ -45,11 +48,16 @@ class Crawling:
         self.driver.maximize_window()
         self.driver.get(url)
         time.sleep(3)
+<<<<<<< HEAD:features/Craw_data.py
 
+=======
+        
+>>>>>>> dd03c63b1c7bb3773bde2959f17d6debc2cbb310:features/Data_process/Crawling.py
         # Crawling start...
         print('Part 1. Title, Image Crawling')
         with tqdm(total=10) as pbar:
             idx = 0
+<<<<<<< HEAD:features/Craw_data.py
             while len(self.hVideo.keys()) < 10:
                 # 실시간 영상 제외
                 if (self.driver.find_element(By.XPATH,
@@ -65,6 +73,17 @@ class Crawling:
                     time.sleep(1)
                     title = self.driver.find_element(By.XPATH,
                                                      f'/html/body/ytd-app/div[1]/ytd-page-manager/ytd-browse/ytd-two-column-browse-results-renderer/div[1]/ytd-rich-grid-renderer/div[6]/ytd-rich-grid-row[{idx // 4 + 1}]/div/ytd-rich-item-renderer[{idx % 4 + 1}]/div/ytd-rich-grid-media/div[1]/div[2]/div[1]/h3/a/yt-formatted-string').text
+=======
+            while(len(self.hVideo.keys()) < 10):
+                # 실시간 영상 제외
+                if(self.driver.find_element(By.XPATH, f'/html/body/ytd-app/div[1]/ytd-page-manager/ytd-browse/ytd-two-column-browse-results-renderer/div[1]/ytd-rich-grid-renderer/div[6]/ytd-rich-grid-row[{idx // 4 + 1}]/div/ytd-rich-item-renderer[{idx % 4 + 1}]/div/ytd-rich-grid-media/div[1]/div[2]/div[1]/ytd-badge-supported-renderer[1]').text == ''):
+                    time.sleep(2)
+                    link = self.driver.find_element(By.XPATH, f'/html/body/ytd-app/div[1]/ytd-page-manager/ytd-browse/ytd-two-column-browse-results-renderer/div[1]/ytd-rich-grid-renderer/div[6]/ytd-rich-grid-row[{idx // 4 + 1}]/div/ytd-rich-item-renderer[{idx % 4 + 1}]/div/ytd-rich-grid-media/div[1]/div[2]/div[1]/h3/a').get_attribute('href')
+                    time.sleep(1)
+                    img = self.driver.find_element(By.XPATH, f'/html/body/ytd-app/div[1]/ytd-page-manager/ytd-browse/ytd-two-column-browse-results-renderer/div[1]/ytd-rich-grid-renderer/div[6]/ytd-rich-grid-row[{idx // 4 + 1}]/div/ytd-rich-item-renderer[{idx % 4 + 1}]/div/ytd-rich-grid-media/div[1]/ytd-thumbnail/a/yt-img-shadow/img').get_attribute('src')
+                    time.sleep(1)
+                    title = self.driver.find_element(By.XPATH, f'/html/body/ytd-app/div[1]/ytd-page-manager/ytd-browse/ytd-two-column-browse-results-renderer/div[1]/ytd-rich-grid-renderer/div[6]/ytd-rich-grid-row[{idx // 4 + 1}]/div/ytd-rich-item-renderer[{idx % 4 + 1}]/div/ytd-rich-grid-media/div[1]/div[2]/div[1]/h3/a/yt-formatted-string').text
+>>>>>>> dd03c63b1c7bb3773bde2959f17d6debc2cbb310:features/Data_process/Crawling.py
                     time.sleep(1)
 
                     self.hVideo[link] = dict()
@@ -79,11 +98,17 @@ class Crawling:
             self.driver.get(link)
             time.sleep(3)
 
+<<<<<<< HEAD:features/Craw_data.py
             hits = self.driver.find_element(By.CSS_SELECTOR,
                                             'div#info ytd-video-view-count-renderer span.view-count.style-scope.ytd-video-view-count-renderer').text
             time.sleep(2)
             likes = self.driver.find_element(By.CSS_SELECTOR,
                                              'div#menu-container a.yt-simple-endpoint.style-scope.ytd-toggle-button-renderer yt-formatted-string#text').text
+=======
+            hits = self.driver.find_element(By.CSS_SELECTOR, 'div#info ytd-video-view-count-renderer span.view-count.style-scope.ytd-video-view-count-renderer').text
+            time.sleep(2)
+            likes = self.driver.find_element(By.CSS_SELECTOR, 'div#menu-container a.yt-simple-endpoint.style-scope.ytd-toggle-button-renderer yt-formatted-string#text').text
+>>>>>>> dd03c63b1c7bb3773bde2959f17d6debc2cbb310:features/Data_process/Crawling.py
             time.sleep(2)
 
             self.hVideo[link]['hits'] = hits
@@ -144,6 +169,7 @@ class Crawling:
             time.sleep(2)
             self.driver.find_element(By.CSS_SELECTOR, "button#search-icon-legacy").click()
             time.sleep(2)
+<<<<<<< HEAD:features/Craw_data.py
 
             print('Part 1. Title, Image Crawling')
             with tqdm(total=10) as pbar:
@@ -163,25 +189,54 @@ class Crawling:
                         time.sleep(1)
                         title = self.driver.find_element(By.XPATH,
                                                          f'/html/body/ytd-app/div[1]/ytd-page-manager/ytd-search/div[1]/ytd-two-column-search-results-renderer/div/ytd-section-list-renderer/div[2]/ytd-item-section-renderer/div[3]/ytd-video-renderer[{idx + 1}]/div[1]/div/div[1]/div/h3/a/yt-formatted-string').text
+=======
+            
+            print('Part 1. Title, Image Crawling')
+            with tqdm(total=10) as pbar:
+                idx = 0
+                while(len(self.kVideo[keyword].keys()) < 10):
+                    # 실시간 영상 제외
+                    if('실시간' not in self.driver.find_element(By.XPATH,f'/html/body/ytd-app/div[1]/ytd-page-manager/ytd-search/div[1]/ytd-two-column-search-results-renderer/div/ytd-section-list-renderer/div[2]/ytd-item-section-renderer[1]/div[3]/ytd-video-renderer[{idx + 1}]/div[1]/div/ytd-badge-supported-renderer').text):
+                        time.sleep(1)
+                        link = self.driver.find_element(By.XPATH, f'/html/body/ytd-app/div[1]/ytd-page-manager/ytd-search/div[1]/ytd-two-column-search-results-renderer/div/ytd-section-list-renderer/div[2]/ytd-item-section-renderer/div[3]/ytd-video-renderer[{idx + 1}]/div[1]/ytd-thumbnail/a').get_attribute('href')
+                        time.sleep(1)
+                        img = self.driver.find_element(By.XPATH, f'/html/body/ytd-app/div[1]/ytd-page-manager/ytd-search/div[1]/ytd-two-column-search-results-renderer/div/ytd-section-list-renderer/div[2]/ytd-item-section-renderer/div[3]/ytd-video-renderer[{idx + 1}]/div[1]/ytd-thumbnail/a/yt-img-shadow/img').get_attribute('src')
+                        time.sleep(1)
+                        title = self.driver.find_element(By.XPATH, f'/html/body/ytd-app/div[1]/ytd-page-manager/ytd-search/div[1]/ytd-two-column-search-results-renderer/div/ytd-section-list-renderer/div[2]/ytd-item-section-renderer/div[3]/ytd-video-renderer[{idx + 1}]/div[1]/div/div[1]/div/h3/a/yt-formatted-string').text
+>>>>>>> dd03c63b1c7bb3773bde2959f17d6debc2cbb310:features/Data_process/Crawling.py
                         time.sleep(1)
 
                         self.kVideo[keyword][link] = dict()
                         self.kVideo[keyword][link]['title'] = title
+<<<<<<< HEAD:features/Craw_data.py
                         self.kVideo[keyword][link]['image'] = img
 
                         pbar.update(1)
                     idx += 1
 
+=======
+                        self.kVideo[keyword][link]['img'] = img
+                        
+                        pbar.update(1)
+                    idx += 1
+  
+>>>>>>> dd03c63b1c7bb3773bde2959f17d6debc2cbb310:features/Data_process/Crawling.py
             print('Part 2. Hits, Like Crawling')
             for link in tqdm(self.kVideo[keyword].keys()):
                 self.driver.get(link)
                 time.sleep(3)
 
+<<<<<<< HEAD:features/Craw_data.py
                 hits = self.driver.find_element(By.CSS_SELECTOR,
                                                 'div#info ytd-video-view-count-renderer span.view-count.style-scope.ytd-video-view-count-renderer').text
                 time.sleep(2)
                 likes = self.driver.find_element(By.CSS_SELECTOR,
                                                  'div#menu-container a.yt-simple-endpoint.style-scope.ytd-toggle-button-renderer yt-formatted-string#text').text
+=======
+                hits = self.driver.find_element(By.CSS_SELECTOR, 'div#info ytd-video-view-count-renderer span.view-count.style-scope.ytd-video-view-count-renderer').text
+                time.sleep(2)
+                likes = self.driver.find_element(By.CSS_SELECTOR, 'div#menu-container a.yt-simple-endpoint.style-scope.ytd-toggle-button-renderer yt-formatted-string#text').text
+>>>>>>> dd03c63b1c7bb3773bde2959f17d6debc2cbb310:features/Data_process/Crawling.py
                 time.sleep(2)
 
                 self.kVideo[keyword][link]['hits'] = hits
@@ -199,7 +254,11 @@ class Crawling:
                 "{Video Link}" : [{댓글1}, {댓글2}, ...]
             }
         '''
+<<<<<<< HEAD:features/Craw_data.py
         self.vComment = dict()  # Store Comments of a Video
+=======
+        self.vComment = dict()   # Store Comments of a Video
+>>>>>>> dd03c63b1c7bb3773bde2959f17d6debc2cbb310:features/Data_process/Crawling.py
         self.vComment[link] = list()
 
         self.driver.set_window_size(1020, 1020)
@@ -218,7 +277,11 @@ class Crawling:
 
                 pbar.update(1)
                 scroll_count += 1
+<<<<<<< HEAD:features/Craw_data.py
 
+=======
+        
+>>>>>>> dd03c63b1c7bb3773bde2959f17d6debc2cbb310:features/Data_process/Crawling.py
         print("Comment Finding...")
         comments = self.driver.find_elements(By.CSS_SELECTOR, 'yt-formatted-string#content-text')
         time.sleep(2)
@@ -233,8 +296,15 @@ class Crawling:
     def closeDriver(self):
         print("Driver Closing...")
         self.driver.quit()
+<<<<<<< HEAD:features/Craw_data.py
 
 
 if __name__ == "__main__":
     print('Testing Start...')
     # ...
+=======
+
+if __name__=="__main__":
+    print('Testing Start...')
+    # ...
+>>>>>>> dd03c63b1c7bb3773bde2959f17d6debc2cbb310:features/Data_process/Crawling.py
