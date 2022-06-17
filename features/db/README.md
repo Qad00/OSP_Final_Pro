@@ -21,3 +21,5 @@
  - vader : vader 방식을 이용해 예측, predict에 -2에서 2까지 표시됨
 
 5. sample_vader : vader의 예시 코드, youtube_title.csv를 이용해 예측해 보았다
+6. kosac : kosac이라는 감정 사전을 이용해 댓글의 긍정, 부정을 예측하고 긍정, 부정 단어 및 개수를 출력해보았다 --> 한글, 영어 둘다 되는 듯?
+7. sample2 : kosac의 예시코드, youtube_title.csv를 이용해 예측해 보았다
