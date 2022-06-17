@@ -1,9 +1,10 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
+from bs4 import BeautifulSoup
 import time
 from tqdm import tqdm
 
@@ -17,7 +18,7 @@ class Crawling:
         options.add_argument('--disable-dev-shm-usage')
         options.add_argument('--window-size=1920x1080')
         options.add_experimental_option("excludeSwitches", ["enable-logging"])
-
+        
         self.driver = webdriver.Chrome(service=service, options=options)
 
     def setHVideo(self, url='https://www.youtube.com/'):
@@ -39,32 +40,43 @@ class Crawling:
                 ...
             }
         '''
-        self.hVideo = dict()  # Store Home Videos Information
+        self.hVideo = dict()    # Store Home Videos Information 
 
         self.driver.maximize_window()
         self.driver.get(url)
         time.sleep(3)
+        
+        # Crawling Start...
+        print('Part 1. Title, Image, Link Crawling')
+        html = self.driver.page_source
+        bs = BeautifulSoup(html,'html.parser')
+        rowVideos = bs.find_all('ytd-rich-grid-row')
 
-        # Crawling start...
-        print('Part 1. Title, Image Crawling')
         with tqdm(total=10) as pbar:
             idx = 0
             while(len(self.hVideo.keys()) < 10):
-                # 실시간 영상 제외
-                if(self.driver.find_element(By.XPATH, f'/html/body/ytd-app/div[1]/ytd-page-manager/ytd-browse/ytd-two-column-browse-results-renderer/div[1]/ytd-rich-grid-renderer/div[6]/ytd-rich-grid-row[{idx // 4 + 1}]/div/ytd-rich-item-renderer[{idx % 4 + 1}]/div/ytd-rich-grid-media/div[1]/div[2]/div[1]/ytd-badge-supported-renderer[1]').text == ''):
-                    time.sleep(2)
-                    link = self.driver.find_element(By.XPATH, f'/html/body/ytd-app/div[1]/ytd-page-manager/ytd-browse/ytd-two-column-browse-results-renderer/div[1]/ytd-rich-grid-renderer/div[6]/ytd-rich-grid-row[{idx // 4 + 1}]/div/ytd-rich-item-renderer[{idx % 4 + 1}]/div/ytd-rich-grid-media/div[1]/div[2]/div[1]/h3/a').get_attribute('href')
-                    time.sleep(1)
-                    img = self.driver.find_element(By.XPATH, f'/html/body/ytd-app/div[1]/ytd-page-manager/ytd-browse/ytd-two-column-browse-results-renderer/div[1]/ytd-rich-grid-renderer/div[6]/ytd-rich-grid-row[{idx // 4 + 1}]/div/ytd-rich-item-renderer[{idx % 4 + 1}]/div/ytd-rich-grid-media/div[1]/ytd-thumbnail/a/yt-img-shadow/img').get_attribute('src')
-                    time.sleep(1)
-                    title = self.driver.find_element(By.XPATH, f'/html/body/ytd-app/div[1]/ytd-page-manager/ytd-browse/ytd-two-column-browse-results-renderer/div[1]/ytd-rich-grid-renderer/div[6]/ytd-rich-grid-row[{idx // 4 + 1}]/div/ytd-rich-item-renderer[{idx % 4 + 1}]/div/ytd-rich-grid-media/div[1]/div[2]/div[1]/h3/a/yt-formatted-string').text
-                    time.sleep(1)
+                videos = rowVideos[idx].find_all('ytd-rich-item-renderer')
+                for subIdx in range(len(videos)):
+                    # 영상 Crawling...
+                    if(len(self.hVideo.keys()) < 10):
+                        # 실시간 영상 제외
+                        if(videos[subIdx].find_all('ytd-badge-supported-renderer')[2].text.strip() == ''):
+                            # print(f'[{subIdx}]')
+                            title = videos[subIdx].find('yt-formatted-string').text.strip()
+                            # print(title)
+                            link = videos[subIdx].select('a#video-title-link')[0].attrs['href']
+                            # print(link)
+                            if('src' in videos[subIdx].select('img#img')[0].attrs.keys()):
+                                img = videos[subIdx].select('img#img')[0].attrs['src']
+                            else:
+                                img = None
+                            # print(img)
 
-                    self.hVideo[link] = dict()
-                    self.hVideo[link]['title'] = title
-                    self.hVideo[link]['img'] = img
+                            self.hVideo[f'{url}{link}'] = dict()
+                            self.hVideo[f'{url}{link}']['title'] = title
+                            self.hVideo[f'{url}{link}']['img'] = img
 
-                    pbar.update(1)
+                            pbar.update(1)
                 idx += 1
 
         print('Part 2. Hits, Like Crawling')
@@ -72,12 +84,13 @@ class Crawling:
             self.driver.get(link)
             time.sleep(3)
 
-            hits = self.driver.find_element(By.CSS_SELECTOR,
-                                            'div#info ytd-video-view-count-renderer span.view-count.style-scope.ytd-video-view-count-renderer').text
-            time.sleep(2)
-            likes = self.driver.find_element(By.CSS_SELECTOR,
-                                             'div#menu-container a.yt-simple-endpoint.style-scope.ytd-toggle-button-renderer yt-formatted-string#text').text
-            time.sleep(2)
+            html = self.driver.page_source
+            bs = BeautifulSoup(html,'html.parser')
+
+            hits = bs.select('#count > ytd-video-view-count-renderer > span.view-count.style-scope.ytd-video-view-count-renderer')[0].text
+            # print(hits)
+            likes = bs.select('yt-formatted-string#text.style-scope.ytd-toggle-button-renderer.style-text')[0].text
+            # print(likes)
 
             self.hVideo[link]['hits'] = hits
             self.hVideo[link]['likes'] = likes
@@ -123,39 +136,46 @@ class Crawling:
             }
         '''
         if len(keyword) > 0:
-            self.kVideo = dict()  # Store Videos Information about the keyword
+            self.kVideo = dict()    # Store Videos Information about the keyword
             self.kVideo[keyword] = dict()
 
             self.driver.maximize_window()
             self.driver.get(url)
             time.sleep(3)
 
-            # Crawling start...
             self.driver.find_element(By.CSS_SELECTOR, "input#search").clear()
             time.sleep(1)
             self.driver.find_element(By.CSS_SELECTOR, "input#search").send_keys(keyword)
             time.sleep(2)
             self.driver.find_element(By.CSS_SELECTOR, "button#search-icon-legacy").click()
             time.sleep(2)
-
-            print('Part 1. Title, Image Crawling')
+            
+            # Crawling start...
+            html = self.driver.page_source
+            bs = BeautifulSoup(html, 'html.parser')
+            videos = bs.find_all('ytd-video-renderer')
+                
+            print('Part 1. Title, Image Link Crawling')
             with tqdm(total=10) as pbar:
                 idx = 0
                 while(len(self.kVideo[keyword].keys()) < 10):
                     # 실시간 영상 제외
-                    if('실시간' not in self.driver.find_element(By.XPATH,f'/html/body/ytd-app/div[1]/ytd-page-manager/ytd-search/div[1]/ytd-two-column-search-results-renderer/div/ytd-section-list-renderer/div[2]/ytd-item-section-renderer[1]/div[3]/ytd-video-renderer[{idx + 1}]/div[1]/div/ytd-badge-supported-renderer').text):
-                        time.sleep(1)
-                        link = self.driver.find_element(By.XPATH, f'/html/body/ytd-app/div[1]/ytd-page-manager/ytd-search/div[1]/ytd-two-column-search-results-renderer/div/ytd-section-list-renderer/div[2]/ytd-item-section-renderer/div[3]/ytd-video-renderer[{idx + 1}]/div[1]/ytd-thumbnail/a').get_attribute('href')
-                        time.sleep(1)
-                        img = self.driver.find_element(By.XPATH, f'/html/body/ytd-app/div[1]/ytd-page-manager/ytd-search/div[1]/ytd-two-column-search-results-renderer/div/ytd-section-list-renderer/div[2]/ytd-item-section-renderer/div[3]/ytd-video-renderer[{idx + 1}]/div[1]/ytd-thumbnail/a/yt-img-shadow/img').get_attribute('src')
-                        time.sleep(1)
-                        title = self.driver.find_element(By.XPATH, f'/html/body/ytd-app/div[1]/ytd-page-manager/ytd-search/div[1]/ytd-two-column-search-results-renderer/div/ytd-section-list-renderer/div[2]/ytd-item-section-renderer/div[3]/ytd-video-renderer[{idx + 1}]/div[1]/div/div[1]/div/h3/a/yt-formatted-string').text
-                        time.sleep(1)
-
-                        self.kVideo[keyword][link] = dict()
-                        self.kVideo[keyword][link]['title'] = title
-                        self.kVideo[keyword][link]['img'] = img
+                    if(videos[idx].select('#badges > div.badge.badge-style-type-live-now-alternate.style-scope.ytd-badge-supported-renderer') == []):
+                        # print(f'[{idx}]')
+                        title = videos[idx].select('#video-title > yt-formatted-string')[0].text.strip()
+                        # print(title)
+                        link = videos[idx].select('a#video-title')[0].attrs['href']
+                        # print(link)
+                        if('src' in videos[idx].select('img#img')[0].attrs.keys()):
+                            img = videos[idx].select('img#img')[0].attrs['src']
+                        else:
+                            img = None
+                        # print(img)
                         
+                        self.kVideo[keyword][f'{url}{link}'] = dict()
+                        self.kVideo[keyword][f'{url}{link}']['title'] = title
+                        self.kVideo[keyword][f'{url}{link}']['img'] = img
+
                         pbar.update(1)
                     idx += 1
   
@@ -164,22 +184,23 @@ class Crawling:
                 self.driver.get(link)
                 time.sleep(3)
 
-                hits = self.driver.find_element(By.CSS_SELECTOR,
-                                                'div#info ytd-video-view-count-renderer span.view-count.style-scope.ytd-video-view-count-renderer').text
-                time.sleep(2)
-                likes = self.driver.find_element(By.CSS_SELECTOR,
-                                                 'div#menu-container a.yt-simple-endpoint.style-scope.ytd-toggle-button-renderer yt-formatted-string#text').text
-                time.sleep(2)
+                html = self.driver.page_source
+                bs = BeautifulSoup(html,'html.parser')
+
+                hits = bs.select('#count > ytd-video-view-count-renderer > span.view-count.style-scope.ytd-video-view-count-renderer')[0].text
+                # print(hits)
+                likes = bs.select('yt-formatted-string#text.style-scope.ytd-toggle-button-renderer.style-text')[0].text
+                # print(likes)
 
                 self.kVideo[keyword][link]['hits'] = hits
                 self.kVideo[keyword][link]['likes'] = likes
         else:
             print("No Keyword...")
-
+    
     def getKVideo(self):
         return self.kVideo
 
-    def setVComment(self, link, sc_num=15):
+    def setVComment(self, link, sc_num=60):
         '''
             Structure of "vComment"
             {
@@ -189,7 +210,7 @@ class Crawling:
         self.vComment = dict()   # Store Comments of a Video
         self.vComment[link] = list()
 
-        self.driver.set_window_size(1020, 1020)
+        self.driver.set_window_size(1020,1020)
         self.driver.get(link)
         time.sleep(3)
 
@@ -205,9 +226,9 @@ class Crawling:
 
                 pbar.update(1)
                 scroll_count += 1
-
+        
         print("Comment Finding...")
-        comments = self.driver.find_elements(By.CSS_SELECTOR, 'yt-formatted-string#content-text')
+        comments = self.driver.find_elements(By.CSS_SELECTOR,'yt-formatted-string#content-text')
         time.sleep(2)
 
         print("Comment Storing...")
