@@ -7,49 +7,34 @@ from PIL import Image
 import numpy as np
 
 class Wordcloud:
-    def __init__(self, pdata=None, ndata=None):
-        self.pdata = pdata
-        self.ndata = ndata
+    def __init__(self, data=None):
+        self.data = data
 
     def makeWordCloud(self):
         okt = Okt()
 
-        positive_data = list()
-        negative_data = list()
+        noun_adj_data = list()
 
-        for word in self.pdata:
+        for word in self.data:
             result = okt.pos(word)
             for word, tag in result:
                 if tag in ['Noun', 'Adjective']:
-                    positive_data.append(word)
+                    noun_adj_data.append(word)
 
-        for word in self.ndata:
-            result = okt.pos(word)
-            for word, tag in result:
-                if tag in ['Noun', 'Adjective']:
-                    negative_data.append(word)
-
-        # 긍정 단어 중 가장 많이 나온 단어부터 40개를 저장한다.
-        pcounts = Counter(positive_data)
-        ptags = pcounts.most_common(40)
-        print('Tag: ',dict(ptags))
-        
-        # 부정 단어 중 가장 많이 나온 단어부터 40개를 저장한다.
-        ncounts = Counter(positive_data)
-        ntags = ncounts.most_common(40)
-        print('Tag: ',dict(ntags))
+        # 가장 많이 나온 단어부터 40개를 저장한다.
+        counts = Counter(noun_adj_data)
+        tags = counts.most_common(40)
+        print('Tag: ',dict(tags))
         
         # WordCloud를 생성한다.
-        img = Image.open('C:/Users/user/Desktop/OSP Final TP/features/Data_process/Hear shape.png')
+        img = Image.open('features/Data_process/heart.png')
         mask_arr = np.array(img)
 
-        wc = WordCloud(font_path='{Font Path}',background_color="white",width=700,height=700,random_state=42,mask=mask_arr)
-        pcloud = wc.generate_from_frequencies(dict(ptags))
-        ncloud = wc.generate_from_frequencies(dict(ntags))
+        wc = WordCloud(font_path='features/Data_process/ADOBEGOTHICSTD-BOLD.otf',background_color="white",width=700,height=700,random_state=42,mask=mask_arr)
+        cloud = wc.generate_from_frequencies(dict(tags))
 
         # 생성된 WordCloud를 test.jpg로 보낸다.
-        pcloud.to_file('features/Crawling/positive.jpg')
-        ncloud.to_file('features/Crawling/negative.jpg')
+        cloud.to_file('features/Data_process/positive.jpg')
         # plt.figure(figsize=(10, 8))
         # plt.axis('off')
         # plt.imshow(cloud)
@@ -58,5 +43,6 @@ class Wordcloud:
 if __name__=='__main__':
     print('Testing start...')
     # ...
-    wordT = Wordcloud(pdata=None, ndata=None)
+    data = ['안녕','반가워','하이','바이','헬로우','누구','나야','테스트','아니','맞아','카드','리딘','김','현','지','이','연','수','카드','김','이','허']
+    wordT = Wordcloud(data=data)
     wordT.makeWordCloud()
