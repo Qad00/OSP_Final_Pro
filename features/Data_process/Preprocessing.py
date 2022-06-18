@@ -44,9 +44,11 @@ class Preprocessing:
                 # Store the word
                 self.words.append(word)
     
-    def getData(self):
+    def getWord(self):
         return self.words
-
+        
+    def getSentence(self):
+        return self.sentences
 if __name__=='__main__':
     print('Testing Start...')
     #...
