@@ -34,7 +34,7 @@ class Preprocessing:
     def sentenceToWord(self, data):
         ''' data: may be several sentence data or preprocessed sentence data'''
         
-        print('\nMake Words...')
+        print('Make Words...')
         self.words = list()
         for sentence in tqdm(data):
             for word in sentence.split(' '):
@@ -47,7 +47,8 @@ class Preprocessing:
                 # Delete Numbers
                 word = word.strip(self.number)
                 # Store the word
-                self.words.append(word)
+                if word:
+                    self.words.append(word)
         print('Done.')
     
     def getWord(self):
