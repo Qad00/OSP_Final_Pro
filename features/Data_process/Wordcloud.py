@@ -8,6 +8,7 @@ import numpy as np
 
 class Wordcloud:
     def __init__(self, data=None):
+        ''' Word data 저장'''
         self.words = data
 
     def makeWordCloud(self):
@@ -15,26 +16,27 @@ class Wordcloud:
 
         noun_adj_data = list()
 
+        # 저장된 Word data의 형태소 분석 및 명사, 형용사 단어만 저장
         for word in self.words:
             result = okt.pos(word)
             for word, tag in result:
                 if tag in ['Noun', 'Adjective']:
                     noun_adj_data.append(word)
 
-        # 가장 많이 나온 단어부터 40개를 저장한다.
+        # 가장 많이 나온 단어 기준, 상위 40개 저장
         counts = Counter(noun_adj_data)
         tags = counts.most_common(40)
         print('Tag: ',dict(tags))
         
-        # WordCloud를 생성한다.
-        img = Image.open('features/Data_process/heart.png')
+        # WordCloud 생성
+        img = Image.open('features/Images/heart.png')
         mask_arr = np.array(img)
 
-        wc = WordCloud(font_path='features/Data_process/ADOBEGOTHICSTD-BOLD.otf',background_color="white",width=700,height=700,random_state=42,mask=mask_arr)
+        wc = WordCloud(font_path='features/Fonts/ADOBEGOTHICSTD-BOLD.otf',background_color="white",width=700,height=700,random_state=42,mask=mask_arr)
         cloud = wc.generate_from_frequencies(dict(tags))
 
-        # 생성된 WordCloud를 test.jpg로 보낸다.
-        cloud.to_file('features/Data_process/positive.jpg')
+        # 생성된 WordCloud를 이미지 파일로 따로 저장
+        cloud.to_file('features/Images/positive.jpg')
         # plt.figure(figsize=(10, 8))
         # plt.axis('off')
         # plt.imshow(cloud)
