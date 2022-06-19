@@ -2,7 +2,6 @@
 from wordcloud import WordCloud
 from konlpy.tag import Okt
 from collections import Counter
-import matplotlib.pyplot as plt
 from PIL import Image
 import numpy as np
 import os
@@ -44,12 +43,6 @@ class Wordcloud:
 
         # 생성된 WordCloud를 이미지 파일로 따로 저장
         cloud.to_file(self.imgPath+'/wordcloud.jpg')
-        
-        # Wordcloud 결과 보기
-        # plt.figure(figsize=(10, 8))
-        # plt.axis('off')
-        # plt.imshow(cloud)
-        # plt.show()
 
 if __name__=='__main__':
     print('Testing start...')
