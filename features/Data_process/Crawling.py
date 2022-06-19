@@ -200,7 +200,7 @@ class Crawling:
     def getKVideo(self):
         return self.kVideo
 
-    def setVComment(self, link, sc_num=60):
+    def setVComment(self, link, sc_num=20):
         '''
             Structure of "vComment"
             {
