@@ -19,8 +19,9 @@ class Preprocessing:
         self.alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
         self.number = '0123456789'
 
-    def processData(self, data):
-        print("Preprocess Start...")
+    def chatToSentence(self, data):
+        ''' data: crawled comment data'''
+        
         print("Make Sentences...")
         self.sentences = list()
         for idx, key in enumerate(data.keys()):
@@ -28,10 +29,14 @@ class Preprocessing:
             for comment in tqdm(data[key]):
                 for sentence in comment.split('\n'):
                     self.sentences.append(sentence.strip(self.token))
-
+        print('Done.')
+    
+    def sentenceToWord(self, data):
+        ''' data: may be several sentence data or preprocessed sentence data'''
+        
         print('\nMake Words...')
         self.words = list()
-        for sentence in tqdm(self.sentences):
+        for sentence in tqdm(data):
             for word in sentence.split(' '):
                 # Delete Emoticons
                 word = self.emoticon.sub(r'',word)
@@ -43,9 +48,13 @@ class Preprocessing:
                 word = word.strip(self.number)
                 # Store the word
                 self.words.append(word)
+        print('Done.')
     
-    def getData(self):
+    def getWord(self):
         return self.words
+        
+    def getSentence(self):
+        return self.sentences
 
 if __name__=='__main__':
     print('Testing Start...')
