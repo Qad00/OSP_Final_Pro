@@ -34,7 +34,7 @@ class Wordcloud:
         mask_arr = np.array(img)
 
 
-        wc = WordCloud(font_path=os.path.abspath(os.curdir)+'/features/Fonts/ADOBEGOTHICSTD-BOLD.otf',background_color="white",width=700,height=700,random_state=42,mask=mask_arr)
+        wc = WordCloud(font_path=os.path.abspath(os.curdir)+'/features/Fonts/UNDOTUM.ttf',background_color="white",width=700,height=700,random_state=42,mask=mask_arr)
         cloud = wc.generate_from_frequencies(dict(tags))
 
         # 생성된 WordCloud를 이미지 파일로 따로 저장
