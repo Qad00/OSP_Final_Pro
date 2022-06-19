@@ -5,66 +5,55 @@ from flask import Flask, render_template, request
 from features.Data_process.Crawling import Crawling
 from features.Data_process.Preprocessing import Preprocessing
 from features.db.elasticsearch import Elastic_class
-
+from features.Data_process import prepro
+from w_model import predict_pos
+import os
 
 app = Flask(__name__)
 
+
 # BASE = http://127.0.0.1:5000
 
-
-def print_crawling_result(keyword, video_data):
-    i = 0
-    print("keyword:  ", keyword)
-    for link in video_data.keys():
-        print("link{} = {},  title = {}, pic = {}, likes ={}, hits = {}".format((i + 1), link, video_data[link]['title'],
-              video_data[link]['img'], video_data[link]['likes'], video_data[link]['hits']))
-
-        i += 1
-
-    
 # home page
 @app.route('/')
 def index():
-    crawData = Crawling()
     elastic = Elastic_class()
-    # craw title, img, link, likes, views from top 10 videos in realtime
+    crawData = Crawling()
+   
+    #craw title, img, link, likes, views from top 10 videos in realtime
     crawData.setHVideo()
-
     # temporary store link --> {title, img, likes, hits } in videos_data
     videos_data = crawData.getHVideo()
-
-    elastic.insert("home_data", videos_data)
-    #elastic.search("home_data")
-
-    print("Home page checked successfully")
     crawData.closeDriver()
+    
+    elastic.insert("home_data", videos_data)
+
     return render_template('home_page.html', videos_data=videos_data)
 
 
 @app.route('/searched_word_result_page', methods=['GET', 'POST'])
 def required_videos():
+    # get word that was searched form searching field
     crawData = Crawling()
     elastic = Elastic_class()
-    #option = "by default"
+    
+    # option = "by default"
+
     keyword = "By default"
     if request.method == 'POST':
-        #option = request.form['selected_option']
+        # option = request.form['selected_option']
         keyword = request.form['word_in_searching_field']
     elif request.method == 'GET':
-        #option = request.args.get('selected_option')
+        # option = request.args.get('selected_option')
         keyword = request.args.get('word_in_searching_field')
 
+
     # craw first 10 videos_data --> video_link, title, image, views, likes
-    print("keyword:  ", keyword)
     crawData.setKVideo(keyword)
     videos_data = crawData.getKVideo()
-    # store to db crawled data
-    elastic.insert("search_data", videos_data)
-    #elastic.search("search_data")
     
-    #print_crawling_result(keyword, videos_data[keyword])
+    elastic.insert("search_data", videos_data)
 
-    print("Searched word result page --> Success")
     crawData.closeDriver()
     print("Driver closed")
     return render_template("searched_word_result_page.html", keyword=keyword, videos_data=videos_data[keyword])
@@ -77,8 +66,7 @@ def result():
     craw_data = Crawling()
     pre = Preprocessing()
     elastic = Elastic_class()
-    # data could be accessed in html from db
-    # or return by variables from result function
+    
     if request.method == 'POST':
         clicked_video_link = request.form.get('my_var')
     elif request.method == 'GET':
@@ -88,26 +76,38 @@ def result():
 
     # craw comments by given link
     craw_data.setVComment(clicked_video_link)
-    #temporary store in variable
+    # temporary store in variable
     comments = craw_data.getVComment()
+    
+    # Elastic part
     el = elastic.db2(clicked_video_link, comments[clicked_video_link])
     elastic.insert("com_data", el)
-    print("\n\n Comments: ")
-    #print(comments)
-    #elastic.search("com_data")
+
+    cleaned_comments = list()
+    for com in comments[clicked_video_link]:
+        t = prepro.text_preprocess(com)
+        t = t.strip()
+        if (len(t) != 0) and ((t != '.') or (t != '..') or (t != '...')):
+            cleaned_comments.append(t)
 
     # Result data
-    num = 0
-    pn = 0
-    p_percent = 0
-    pos_words = []
-    neg_words = []
+    num_com, pos_list, neg_list, pos_per = predict_pos.get_res_result(cleaned_comments)
+    np = 0
     word_cloud = "url"
-    el = elastic.db3(clicked_video_link, num, pn, p_percent, pos_words, neg_words, word_cloud)
-    elastic.insert("result_data", el)
     
+    # checking results
+    print("Number of comments: ", num_com)
+    print("Number of positive comments: ", len(pos_list))
+    print("Number of negative comments: ", len(neg_list))
+    print("Number of positive comments in percent: {:.2f}%".format(pos_per))
+    print("Number of negative comments in percent: {:.2f}%".format(100 - pos_per))
+
+    # elastic 
+    el1 = elastic.db3(clicked_video_link, num_com, np, pos_per, pos_list, neg_list, word_cloud)
+    elastic.insert("result_data", el1)
+
     craw_data.closeDriver()
-    print("Research result page check -- >  Success")
+
     print("Driver closed")
     return render_template("result_page.html")
 

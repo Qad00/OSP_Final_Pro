@@ -178,11 +178,11 @@ class Crawling:
 
                         pbar.update(1)
                     idx += 1
-  
+            
             print('Part 2. Hits, Like Crawling')
             for link in tqdm(self.kVideo[keyword].keys()):
                 self.driver.get(link)
-                time.sleep(3)
+                time.sleep(5)
 
                 html = self.driver.page_source
                 bs = BeautifulSoup(html,'html.parser')
@@ -200,7 +200,8 @@ class Crawling:
     def getKVideo(self):
         return self.kVideo
 
-    def setVComment(self, link, sc_num=60):
+    def setVComment(self, link, sc_num=30):
+
         '''
             Structure of "vComment"
             {
