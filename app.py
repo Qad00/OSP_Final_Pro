@@ -5,22 +5,21 @@ from flask import Flask, render_template, request
 from features.Data_process.Crawling import Crawling
 from features.Data_process.Preprocessing import Preprocessing
 from features.db.elasticsearch import Elastic_class
-from features.Data_process import prepro
+from features.Data_process.Wordcloud import Wordcloud 
 from w_model import predict_pos
 import os
 
 app = Flask(__name__)
-
+sp_c = 0
+elastic = Elastic_class()
 
 # BASE = http://127.0.0.1:5000
 
 # home page
 @app.route('/')
 def index():
-    elastic = Elastic_class()
     crawData = Crawling()
-   
-    #craw title, img, link, likes, views from top 10 videos in realtime
+    
     crawData.setHVideo()
     # temporary store link --> {title, img, likes, hits } in videos_data
     videos_data = crawData.getHVideo()
@@ -35,10 +34,8 @@ def index():
 def required_videos():
     # get word that was searched form searching field
     crawData = Crawling()
-    elastic = Elastic_class()
     
     # option = "by default"
-
     keyword = "By default"
     if request.method == 'POST':
         # option = request.form['selected_option']
@@ -62,10 +59,10 @@ def required_videos():
 # run after one of video was clicked
 @app.route('/result_page', methods=['GET', 'POST'])
 def result():
+    global sp_c 
     clicked_video_link = 'By default'
     craw_data = Crawling()
     pre = Preprocessing()
-    elastic = Elastic_class()
     
     if request.method == 'POST':
         clicked_video_link = request.form.get('my_var')
@@ -83,18 +80,21 @@ def result():
     el = elastic.db2(clicked_video_link, comments[clicked_video_link])
     elastic.insert("com_data", el)
 
-    cleaned_comments = list()
-    for com in comments[clicked_video_link]:
-        t = prepro.text_preprocess(com)
-        t = t.strip()
-        if (len(t) != 0) and ((t != '.') or (t != '..') or (t != '...')):
-            cleaned_comments.append(t)
-
-    # Result data
-    num_com, pos_list, neg_list, pos_per = predict_pos.get_res_result(cleaned_comments)
-    np = 0
-    word_cloud = "url"
+    pre.chatToSentence(comments)  
+    prepro_comms = pre.getSentence() 
     
+    # Result data
+    num_com, pos_list, neg_list, pos_per = predict_pos.get_res_result(prepro_comms)
+    np = 0
+    # word cloud
+    if len(pos_list) > len(neg_list):
+        wordT = Wordcloud(data=pos_list, dtype="pos")
+    else:
+        wordT = Wordcloud(data=neg_list, dtype="neg")
+
+    word_cloud = wordT.makeWordCloud(sp_c)
+    sp_c = sp_c + 1
+ 
     # checking results
     print("Number of comments: ", num_com)
     print("Number of positive comments: ", len(pos_list))

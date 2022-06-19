@@ -223,7 +223,7 @@ class Crawling:
             while scroll_count < sc_num:
                 scroll_position = 10000 + scroll_count * 10000
                 self.driver.execute_script(f"window.scrollTo(0,{scroll_position});")
-                time.sleep(1)
+                time.sleep(3)
 
                 pbar.update(1)
                 scroll_count += 1
