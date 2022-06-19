@@ -27,7 +27,7 @@ j = 1
 def index():
     global i
     crawData = Crawling()
-    elastic = Elastic_class(es_host=f'http://172.20.0.2:9200/')
+    elastic = Elastic_class(es_host=f'http://172.20.0.3:9200/')
     # craw title, img, link, likes, views from top 10 videos in realtime
     crawData.setHVideo()
 
@@ -53,7 +53,7 @@ def required_videos():
     global j
     # get word that was searched form searching field
     crawData = Crawling()
-    elastic = Elastic_class(es_host='http://172.20.0.2:9200/')
+    elastic = Elastic_class(es_host='http://172.20.0.3:9200/')
     #option = "by default"
     keyword = "By default"
     if request.method == 'POST':
@@ -91,7 +91,7 @@ def result():
     clicked_video_link = 'By default'
     craw_data = Crawling()
     pre = Preprocessing()
-    elastic = Elastic_class(es_host='http://172.20.0.2:9200/')
+    elastic = Elastic_class(es_host='http://172.20.0.3:9200/')
     # data could be accessed in html from db
     # or return by variables from result function
     if request.method == 'POST':

@@ -5,11 +5,18 @@ from collections import Counter
 import matplotlib.pyplot as plt
 from PIL import Image
 import numpy as np
+import os
 
 class Wordcloud:
-    def __init__(self, data=None):
+    def __init__(self, data=None, dtype='pos'):
         ''' Word data 저장'''
         self.words = data
+        self.imgPath = os.path.abspath(os.curdir).replace('\\','/') + '/features/Images'
+        self.fontPath = os.path.abspath(os.curdir).replace('\\','/') + '/features/Fonts'
+        if dtype == 'pos':
+            self.fontCol = 'spring'
+        elif dtype == 'neg':
+            self.fontCol = 'PuBu'
 
     def makeWordCloud(self):
         okt = Okt()
@@ -29,14 +36,16 @@ class Wordcloud:
         print('Tag: ',dict(tags))
         
         # WordCloud 생성
-        img = Image.open('features/Images/heart.png')
+        img = Image.open(self.imgPath+'/heart.png')
         mask_arr = np.array(img)
 
-        wc = WordCloud(font_path='features/Fonts/ADOBEGOTHICSTD-BOLD.otf',background_color="white",width=700,height=700,random_state=42,mask=mask_arr)
+        wc = WordCloud(font_path=self.fontPath+'/ADOBEGOTHICSTD-BOLD.otf',background_color="white",width=700,height=700,random_state=42,mask=mask_arr, colormap=self.fontCol)
         cloud = wc.generate_from_frequencies(dict(tags))
 
         # 생성된 WordCloud를 이미지 파일로 따로 저장
-        cloud.to_file('features/Images/positive.jpg')
+        cloud.to_file(self.imgPath+'/wordcloud.jpg')
+        
+        # Wordcloud 결과 보기
         # plt.figure(figsize=(10, 8))
         # plt.axis('off')
         # plt.imshow(cloud)
