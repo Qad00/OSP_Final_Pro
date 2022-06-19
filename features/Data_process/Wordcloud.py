@@ -1,10 +1,11 @@
-'''#!/usr/bin/python3'''
+#!/usr/bin/python3
 from wordcloud import WordCloud
 from konlpy.tag import Okt
 from collections import Counter
 import matplotlib.pyplot as plt
 from PIL import Image
 import numpy as np
+import os
 
 class Wordcloud:
     def __init__(self, data=None):
@@ -29,14 +30,17 @@ class Wordcloud:
         print('Tag: ',dict(tags))
         
         # WordCloud 생성
-        img = Image.open('features/Images/heart.png')
+        img = Image.open(os.path.abspath(os.curdir)+'/features/Images/heart.png')
         mask_arr = np.array(img)
 
-        wc = WordCloud(font_path='features/Fonts/ADOBEGOTHICSTD-BOLD.otf',background_color="white",width=700,height=700,random_state=42,mask=mask_arr)
+
+        wc = WordCloud(font_path=os.path.abspath(os.curdir)+'/features/Fonts/ADOBEGOTHICSTD-BOLD.otf',background_color="white",width=700,height=700,random_state=42,mask=mask_arr)
         cloud = wc.generate_from_frequencies(dict(tags))
 
         # 생성된 WordCloud를 이미지 파일로 따로 저장
-        cloud.to_file('features/Images/positive.jpg')
+        cloud.to_file(os.path.abspath(os.curdir)+'/features/Images/positive.jpg')
+        
+        # Wordcloud 결과 보기
         # plt.figure(figsize=(10, 8))
         # plt.axis('off')
         # plt.imshow(cloud)
@@ -45,6 +49,6 @@ class Wordcloud:
 if __name__=='__main__':
     print('Testing start...')
     # ...
-    data = ['안녕','반가워','하이','바이','헬로우','누구','나야','테스트','아니','맞아','카드','리딘','김','현','지','이','연','수','반가워','헬로우','반가워','안녕']
-    wordT = Wordcloud(data=data)
-    wordT.makeWordCloud()
+    # data = ['안녕','반가워','하이','바이','헬로우','누구','나야','테스트','아니','맞아','카드','리딘','김','현','지','이','연','수','반가워','헬로우','반가워','안녕']
+    # wordT = Wordcloud(data=data)
+    # wordT.makeWordCloud()
