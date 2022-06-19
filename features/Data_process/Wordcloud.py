@@ -11,6 +11,8 @@ class Wordcloud:
     def __init__(self, data=None):
         ''' Word data 저장'''
         self.words = data
+        self.imgPath = os.path.abspath(os.curdir).replace('\\','/') + '/features/Images'
+        self.fontPath = os.path.abspath(os.curdir).replace('\\','/') + '/features/Fonts'
 
     def makeWordCloud(self):
         okt = Okt()
@@ -30,15 +32,14 @@ class Wordcloud:
         print('Tag: ',dict(tags))
         
         # WordCloud 생성
-        img = Image.open(os.path.abspath(os.curdir)+'/features/Images/heart.png')
+        img = Image.open(self.imgPath+'/heart.png')
         mask_arr = np.array(img)
 
-
-        wc = WordCloud(font_path=os.path.abspath(os.curdir)+'/features/Fonts/UNDOTUM.ttf',background_color="white",width=700,height=700,random_state=42,mask=mask_arr)
+        wc = WordCloud(font_path=self.fontPath+'/ADOBEGOTHICSTD-BOLD.otf',background_color="white",width=700,height=700,random_state=42,mask=mask_arr)
         cloud = wc.generate_from_frequencies(dict(tags))
 
         # 생성된 WordCloud를 이미지 파일로 따로 저장
-        cloud.to_file(os.path.abspath(os.curdir)+'/features/Images/positive.jpg')
+        cloud.to_file(self.imgPath+'/wordcloud.jpg')
         
         # Wordcloud 결과 보기
         # plt.figure(figsize=(10, 8))
