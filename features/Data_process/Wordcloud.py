@@ -1,4 +1,4 @@
-'''#!/usr/bin/python3'''
+#!/usr/bin/python3
 from wordcloud import WordCloud
 from konlpy.tag import Okt
 from collections import Counter
@@ -53,7 +53,6 @@ class Wordcloud:
 
 if __name__=='__main__':
     print('Testing start...')
-    # ...
     # data = ['안녕','반가워','하이','바이','헬로우','누구','나야','테스트','아니','맞아','카드','리딘','김','현','지','이','연','수','반가워','헬로우','반가워','안녕']
     # wordT = Wordcloud(data=data)
-    #wordT.makeWordCloud()
+    # wordT.makeWordCloud()

@@ -58,9 +58,9 @@ class Crawling:
                 videos = rowVideos[idx].find_all('ytd-rich-item-renderer')
                 for subIdx in range(len(videos)):
                     # 영상 Crawling...
-                    if(len(self.hVideo.keys()) < 10):
+                    if len(self.hVideo.keys()) < 10:
                         # 실시간 영상 제외
-                        if(videos[subIdx].find_all('ytd-badge-supported-renderer')[2].text.strip() == ''):
+                        if videos[subIdx].find_all('ytd-badge-supported-renderer')[2].text.strip() == '':
                             # print(f'[{subIdx}]')
                             title = videos[subIdx].find('yt-formatted-string').text.strip()
                             # print(title)
@@ -160,23 +160,25 @@ class Crawling:
                 idx = 0
                 while(len(self.kVideo[keyword].keys()) < 10):
                     # 실시간 영상 제외
-                    if(videos[idx].select('#badges > div.badge.badge-style-type-live-now-alternate.style-scope.ytd-badge-supported-renderer') == []):
-                        # print(f'[{idx}]')
-                        title = videos[idx].select('#video-title > yt-formatted-string')[0].text.strip()
-                        # print(title)
-                        link = videos[idx].select('a#video-title')[0].attrs['href']
-                        # print(link)
-                        if('src' in videos[idx].select('img#img')[0].attrs.keys()):
-                            img = videos[idx].select('img#img')[0].attrs['src']
-                        else:
-                            img = None
-                        # print(img)
-                        
-                        self.kVideo[keyword][f'{url}{link}'] = dict()
-                        self.kVideo[keyword][f'{url}{link}']['title'] = title
-                        self.kVideo[keyword][f'{url}{link}']['img'] = img
+                    if videos[idx].select('#badges > div.badge.badge-style-type-live-now-alternate.style-scope.ytd-badge-supported-renderer') == []:
+                        # SHORTS 영상 제외
+                        if 'SHORTS' not in videos[idx].select('ytd-video-renderer div#overlays')[0].text.strip():
+                            # print(f'[{idx}]')
+                            title = videos[idx].select('#video-title > yt-formatted-string')[0].text.strip()
+                            # print(title)
+                            link = videos[idx].select('a#video-title')[0].attrs['href']
+                            # print(link)
+                            if('src' in videos[idx].select('img#img')[0].attrs.keys()):
+                                img = videos[idx].select('img#img')[0].attrs['src']
+                            else:
+                                img = None
+                            # print(img)
+                            
+                            self.kVideo[keyword][f'{url}{link}'] = dict()
+                            self.kVideo[keyword][f'{url}{link}']['title'] = title
+                            self.kVideo[keyword][f'{url}{link}']['img'] = img
 
-                        pbar.update(1)
+                            pbar.update(1)
                     idx += 1
             
             print('Part 2. Hits, Like Crawling')
