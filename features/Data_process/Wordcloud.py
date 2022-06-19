@@ -8,14 +8,14 @@ import numpy as np
 
 class Wordcloud:
     def __init__(self, data=None):
-        self.data = data
+        self.words = data
 
     def makeWordCloud(self):
         okt = Okt()
 
         noun_adj_data = list()
 
-        for word in self.data:
+        for word in self.words:
             result = okt.pos(word)
             for word, tag in result:
                 if tag in ['Noun', 'Adjective']:
@@ -43,6 +43,6 @@ class Wordcloud:
 if __name__=='__main__':
     print('Testing start...')
     # ...
-    data = ['안녕','반가워','하이','바이','헬로우','누구','나야','테스트','아니','맞아','카드','리딘','김','현','지','이','연','수','카드','김','이','허']
+    data = ['안녕','반가워','하이','바이','헬로우','누구','나야','테스트','아니','맞아','카드','리딘','김','현','지','이','연','수','반가워','헬로우','반가워','안녕']
     wordT = Wordcloud(data=data)
     wordT.makeWordCloud()
