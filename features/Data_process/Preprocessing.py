@@ -15,11 +15,9 @@ class Preprocessing:
             u"\U0001F680-\U0001F6FF"    # Transport & Map Symbols
             u"\U0001F1E0-\U0001F1FF"    # Flags (iOS)
         ']+', flags=re.UNICODE)
-        self.token = ' \n~`!@#$%^&*()?/<>,.:;\'"{}[]-_=+'
-        self.alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-        self.number = '0123456789'
+        self.token = ' \n~`!@#$%^&*()?/<>,.:;\'"{}[]-_=+abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 
-    def chatToSentence(self, data):
+    def chatToSentence(self, data: list):
         ''' data: crawled comment data'''
         
         print("Make Sentences...")
@@ -31,7 +29,7 @@ class Preprocessing:
                     self.sentences.append(sentence.strip(self.token))
         print('Done.')
     
-    def sentenceToWord(self, data):
+    def sentenceToWord(self, data: list):
         ''' data: may be several sentence data or preprocessed sentence data'''
         
         print('Make Words...')
@@ -40,12 +38,8 @@ class Preprocessing:
             for word in sentence.split(' '):
                 # Delete Emoticons
                 word = self.emoticon.sub(r'',word)
-                # Delete Special Characters
+                # Delete Special Characters, Alphabets, Numbers
                 word = word.strip(self.token)
-                # Delete Alphabets
-                word = word.strip(self.alphabet)
-                # Delete Numbers
-                word = word.strip(self.number)
                 # Store the word
                 if word:
                     self.words.append(word)
@@ -60,3 +54,7 @@ class Preprocessing:
 if __name__=='__main__':
     print('Testing Start...')
     #...
+    # preTool = Preprocessing()
+    # keyword = ['Sinseoyugi','klsdjfklsdajflksjadlkfjsdlafjlasdjf;klas','로로로로로로롤']
+    # preTool.sentenceToWord(data=keyword)
+    # print(preTool.getWord())
