@@ -1,25 +1,27 @@
 #!/usr/bin/python3
-import argparse 
-import subprocess 
+
+import argparse
+import subprocess
 from flask import Flask, render_template, request
 from features.Data_process.Crawling import Crawling
 from features.Data_process.Preprocessing import Preprocessing
 from features.db.elasticsearch import Elastic_class
 from features.Data_process.Wordcloud import Wordcloud 
 from w_model import predict_pos
+import json
 import os
 
 app = Flask(__name__)
 sp_c = 0
 elastic = Elastic_class()
 
-# BASE = http://127.0.0.1:5000
 
 # home page
 @app.route('/')
 def index():
     crawData = Crawling()
     
+    elastic = Elastic_class()
     crawData.setHVideo()
     
     elastic.insert("home_data", crawData.getHVideo())
@@ -31,9 +33,7 @@ def index():
 
 @app.route('/search_word_page', methods=['GET', 'POST'])
 def required_videos():
-
-    option = "by default"
-    keyword = "By default"
+    
     if request.method == 'POST':
         option = request.form.get('select_op')
         keyword = request.form['word_in_searching_field']
@@ -50,7 +50,7 @@ def required_videos():
 
     crawData.closeDriver()
     print("Driver closed")
-
+    
     return render_template("search_word_page.html", keyword=keyword, videos_data=elastic.search("search_data", keyword))
 
 
@@ -123,5 +123,4 @@ if __name__ == '__main__':
     ipaddr = "127.0.0.1"
     print("Starting the service with ip_addr=" + ipaddr)
     app.run(debug=False, host=ipaddr, port=int(listen_port))
-
 

@@ -66,15 +66,18 @@ class Elastic_class:
             except Exception as e:
                 print(1)
                 continue
+
         for doc in reversed(docs['hits']['hits']):
             try:
-		if url == "non": 
-		    return doc['_source']
+                #print(url)
+                #print(doc['_source'][url])
+                if url == "non":
+                    return doc['_source']
                 else:
-		    return doc['_source'][url]
-	    except Exception as e:
-		continuei
- 
+                    return doc['_source'][url]
+            except Exception as e:
+                continue
+
 
 # need testing!
 # if __name__== '__main__':

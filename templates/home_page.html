@@ -14,7 +14,14 @@
     </form>  -->
     <div class="fixed-container" style="z-index:2">
       <div class="top-container">
-        <form class="row gy-2 gx-3 align-items-center" action="/searched_word_result_page">
+        <div class="site-title">
+          YouTube Video Pos/Neg Analysis
+        </div>
+        <div class="site-explain">
+          Enter a search term or YouTube url you want to check for positive/negative!<br>
+          CAUTION: Crawling may take some time
+        </div> 
+        <form class="row gy-2 gx-3 align-items-center" action="/search_word_page">
 
           <div class="col-auto">
               <label class="visually-hidden" for="autoSizingSelect">Preference</label>
@@ -47,8 +54,6 @@
               <h5 class="card-title">{{videos_data[link]['title']}}</h5>
               <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
               <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-
-
             </div>
             <div class="btn-body">
               <a href="{{url_for('result', my_var=link)}}" class="btn btn-primary">Go somewhere</a>
