@@ -2,7 +2,6 @@
 from wordcloud import WordCloud
 from konlpy.tag import Okt
 from collections import Counter
-import matplotlib.pyplot as plt
 from PIL import Image
 import numpy as np
 import os

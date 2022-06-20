@@ -21,39 +21,37 @@ def index():
     crawData = Crawling()
     
     crawData.setHVideo()
-    # temporary store link --> {title, img, likes, hits } in videos_data
-    videos_data = crawData.getHVideo()
+    
+    elastic.insert("home_data", crawData.getHVideo())
     crawData.closeDriver()
     
-    elastic.insert("home_data", videos_data)
 
-    return render_template('home_page.html', videos_data=videos_data)
+    return render_template('home_page.html', videos_data=elastic.search("home_data", "non"))
 
 
-@app.route('/searched_word_result_page', methods=['GET', 'POST'])
+@app.route('/search_word_page', methods=['GET', 'POST'])
 def required_videos():
-    # get word that was searched form searching field
-    crawData = Crawling()
-    
-    # option = "by default"
+
+    option = "by default"
     keyword = "By default"
     if request.method == 'POST':
-        # option = request.form['selected_option']
+        option = request.form.get('select_op')
         keyword = request.form['word_in_searching_field']
     elif request.method == 'GET':
-        # option = request.args.get('selected_option')
+        option = request.args.get('select_op')
         keyword = request.args.get('word_in_searching_field')
 
+    print(option)
 
-    # craw first 10 videos_data --> video_link, title, image, views, likes
+    crawData = Crawling()
     crawData.setKVideo(keyword)
-    videos_data = crawData.getKVideo()
-    
-    elastic.insert("search_data", videos_data)
+
+    elastic.insert("search_data", crawData.getKVideo())
 
     crawData.closeDriver()
     print("Driver closed")
-    return render_template("searched_word_result_page.html", keyword=keyword, videos_data=videos_data[keyword])
+
+    return render_template("search_word_page.html", keyword=keyword, videos_data=elastic.search("search_data", keyword))
 
 
 # run after one of video was clicked
@@ -96,20 +94,21 @@ def result():
     sp_c = sp_c + 1
  
     # checking results
-    print("Number of comments: ", num_com)
-    print("Number of positive comments: ", len(pos_list))
-    print("Number of negative comments: ", len(neg_list))
-    print("Number of positive comments in percent: {:.2f}%".format(pos_per))
-    print("Number of negative comments in percent: {:.2f}%".format(100 - pos_per))
+    #print("Number of comments: ", num_com)
+    #print("Number of positive comments: ", len(pos_list))
+    #print("Number of negative comments: ", len(neg_list))
+    #print("Number of positive comments in percent: {:.2f}%".format(pos_per))
+    #print("Number of negative comments in percent: {:.2f}%".format(100 - pos_per))
 
     # elastic 
     el1 = elastic.db3(clicked_video_link, num_com, np, pos_per, pos_list, neg_list, word_cloud)
     elastic.insert("result_data", el1)
 
     craw_data.closeDriver()
-
     print("Driver closed")
-    return render_template("result_page.html")
+    t = elastic.search("result_data", clicked_video_link)
+    print(t["word cloud"]) 
+    return render_template("result_page.html", video_url=clicked_video_link, db=elastic.search("result_data", clicked_video_link))
 
 
 if __name__ == '__main__':

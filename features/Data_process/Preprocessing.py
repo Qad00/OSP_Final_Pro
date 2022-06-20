@@ -26,7 +26,9 @@ class Preprocessing:
             print(f'Link[{idx+1}] processing...')
             for comment in tqdm(data[key]):
                 for sentence in comment.split('\n'):
-                    self.sentences.append(sentence.strip(self.token))
+                    sentence = sentence.strip(self.token)
+                    if sentence:
+                        self.sentences.append(sentence)
         print('Done.')
     
     def sentenceToWord(self, data: list):
