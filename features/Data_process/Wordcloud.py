@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+#-*- coding: utf-8 -*-
 from wordcloud import WordCloud
 from konlpy.tag import Okt
 from collections import Counter
