@@ -25,7 +25,8 @@ class Preprocessing:
         for idx, key in enumerate(data.keys()):
             print(f'Link[{idx+1}] processing...')
             for comment in tqdm(data[key]):
-                for sentence in comment.split('\n'):
+                for sentence in comment.split('\n'): 
+	            #sentence = self.emoticon.sub(r'',sentence) 
                     sentence = sentence.strip(self.token)
                     if sentence:
                         self.sentences.append(sentence)
