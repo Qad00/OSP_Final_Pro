@@ -2,7 +2,7 @@
 
 import argparse
 import subprocess
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash
 from features.Data_process.Crawling import Crawling
 from features.Data_process.Preprocessing import Preprocessing
 from features.db.elasticsearch import Elastic_class
