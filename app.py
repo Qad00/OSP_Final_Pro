@@ -2,7 +2,7 @@
 
 import argparse
 import subprocess
-from flask import Flask, render_template, request, flash
+from flask import Flask, render_template, request
 from features.Data_process.Crawling import Crawling
 from features.Data_process.Preprocessing import Preprocessing
 from features.db.elasticsearch import Elastic_class
@@ -52,7 +52,7 @@ def required_videos():
         print("Driver closed")
         
         return render_template("search_word_page.html", keyword=keyword, videos_data=elastic.search("search_data", keyword))
-    elif option == '2':
+    else:
         global sp_c 
         clicked_video_link = 'By default'
         craw_data = Crawling()
@@ -95,9 +95,9 @@ def required_videos():
         t = elastic.search("result_data", clicked_video_link)
         print(t["word cloud"]) 
         return render_template("result_page.html", video_id=get_video_id(clicked_video_link), db=elastic.search("result_data", clicked_video_link))
-    else:
-        flash("Please choose an option")
-        return render_template('home_page.html', videos_data=elastic.search("home_data", "non"))
+    # else:
+    #     flash("Please choose an option")
+    #     return render_template('home_page.html', videos_data=elastic.search("home_data", "non"))
 
 
 # run after one of video was clicked
