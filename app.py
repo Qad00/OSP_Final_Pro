@@ -52,7 +52,7 @@ def required_videos():
         print("Driver closed")
         
         return render_template("search_word_page.html", keyword=keyword, videos_data=elastic.search("search_data", keyword))
-    else option == '2':
+    else:
         global sp_c 
         clicked_video_link = 'By default'
         craw_data = Crawling()
