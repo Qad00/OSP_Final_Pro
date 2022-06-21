@@ -14,7 +14,7 @@ import os
 
 app = Flask(__name__)
 sp_c = 0
-elastic = Elastic_class()
+elastic = Elastic_class(es_host='http://172.20.0.3:9200/')
 
 
 # home page
