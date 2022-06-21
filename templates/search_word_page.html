@@ -5,7 +5,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
     <link href="../static/assets/home_page.css" rel="stylesheet">
-    <title>Home</title>
+    <title>Search Word</title>
 </head>
 <body>
     <!-- <form method="POST" action="/result_page">
@@ -36,7 +36,7 @@
             <input type="text" class="form-control" name="word_in_searching_field" id="autoSizingInput" placeholder="검색어 혹은 URL을 입력해주세요">
           </div>
           <div class="col-auto">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Search</button>
           </div>
         </form>
       </div>
@@ -58,7 +58,7 @@
               <div class="card-text">views: {{videos_data[link]['hits']}}</div> 
             </div>
             <div class="btn-body">
-              <a href="{{url_for('result', my_var=link)}}" class="btn btn-primary">Go somewhere</a>
+              <a href="{{url_for('result', my_var=link)}}" class="btn btn-primary">Analysis</a>
             </div>
           </div>
         </div>
