@@ -11,6 +11,28 @@ body{
 }
 
 
+.fixed-container{
+	position: fixed;
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	height: 20vh;
+	background-image: url('../images/youtube_background_2.jpg');
+	background-size : cover;
+	padding-top: 9vh;
+	/* opacity: 0.9; */
+  }
+  
+  
+  .top-container{
+	position: fixed;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+  }
+  
+
 .top-container{
 	/* position: fixed; */
 }
@@ -37,6 +59,7 @@ body{
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
+	padding-top: 25vh;
 }
 
 .video-wc {
@@ -108,7 +131,7 @@ body{
 }
 
 .progress-bar .progress {
-	width: 72%; 
+	/* width: 72%;  */
 	height: 4vh;
 	padding: 0;
 	text-align: center;
@@ -208,4 +231,16 @@ body{
 .mb-3 {
 	width: 30vw;
 	height: 20vh;
+	/* text-align: center; */
+	/* line-height:20vh; */
+  
+}
+
+.text-secondary {
+	width: 100%;
+	position:absolute;
+    top:50%; left:50%;
+    transform: translate(-50%, -50%);
+
+
 }

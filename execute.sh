@@ -27,5 +27,7 @@ sudo pip install tensorflow
 pip install keras
 pip install konlpy
 sudo apt install default-jdk
+pip install pytube
+
 # run base 
-python3 app.py --listen-port 5501
+python3 app.py --listen-port 5512
