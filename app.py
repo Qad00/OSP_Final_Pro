@@ -8,13 +8,13 @@ from features.Data_process.Preprocessing import Preprocessing
 from features.db.elasticsearch import Elastic_class
 from features.Data_process.Wordcloud import Wordcloud 
 from features.Data_process.url_type import get_video_id
-# from w_model import predict_pos
+from w_model import predict_pos
 import json
 import os
 
 app = Flask(__name__)
 sp_c = 0
-elastic = Elastic_class()
+elastic = Elastic_class(es_host='http://172.20.0.3:9200/')
 
 
 # home page
