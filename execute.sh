@@ -7,6 +7,7 @@ sudo apt-get -y update
 sudo apt-get install -y wget
 sudo apt-get install -y unzip
 sudo apt-get install -y curl
+sudo apt install default-jdk
 
 # Driver Setting
 wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
@@ -26,6 +27,7 @@ pip install wordcloud
 sudo pip install tensorflow
 pip install keras
 pip install konlpy
+pip install pytube
 
-# Running Parts
+# run base 
 python3 app.py --listen-port 5000
