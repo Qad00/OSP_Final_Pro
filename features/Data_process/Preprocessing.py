@@ -1,6 +1,5 @@
 #!/usr/bin/python
 #-*- coding: utf-8 -*-
-from Crawling import Crawling
 from tqdm import tqdm
 import re
 
@@ -16,38 +15,47 @@ class Preprocessing:
             u"\U0001F680-\U0001F6FF"    # Transport & Map Symbols
             u"\U0001F1E0-\U0001F1FF"    # Flags (iOS)
         ']+', flags=re.UNICODE)
-        self.token = ' \n~`!@#$%^&*()?/<>,.:;\'"{}[]-_=+'
-        self.alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-        self.number = '0123456789'
+        self.token = ' \n~`!@#$%^&*()?/<>,.:;\'"{}[]-_=+abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
 
-    def processData(self, data):
-        print("Preprocess Start...")
+    def chatToSentence(self, data: list):
+        ''' data: crawled comment data'''
+        
         print("Make Sentences...")
         self.sentences = list()
         for idx, key in enumerate(data.keys()):
             print(f'Link[{idx+1}] processing...')
             for comment in tqdm(data[key]):
                 for sentence in comment.split('\n'):
-                    self.sentences.append(sentence.strip(self.token))
-
-        print('\nMake Words...')
+                    sentence = sentence.strip(self.token)
+                    if sentence:
+                        self.sentences.append(sentence)
+        print('Done.')
+    
+    def sentenceToWord(self, data: list):
+        ''' data: may be several sentence data or preprocessed sentence data'''
+        
+        print('Make Words...')
         self.words = list()
-        for sentence in tqdm(self.sentences):
+        for sentence in tqdm(data):
             for word in sentence.split(' '):
                 # Delete Emoticons
                 word = self.emoticon.sub(r'',word)
-                # Delete Special Characters
+                # Delete Special Characters, Alphabets, Numbers
                 word = word.strip(self.token)
-                # Delete Alphabets
-                word = word.strip(self.alphabet)
-                # Delete Numbers
-                word = word.strip(self.number)
                 # Store the word
-                self.words.append(word)
+                if word:
+                    self.words.append(word)
+        print('Done.')
     
-    def getData(self):
+    def getWord(self):
         return self.words
+        
+    def getSentence(self):
+        return self.sentences
 
 if __name__=='__main__':
     print('Testing Start...')
-    #...
+    # preTool = Preprocessing()
+    # keyword = ['Sinseoyugi','klsdjfklsdajflksjadlkfjsdlafjlasdjf;klas','로로로로로로롤']
+    # preTool.sentenceToWord(data=keyword)
+    # print(preTool.getWord())

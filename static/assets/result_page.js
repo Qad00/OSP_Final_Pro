@@ -33,5 +33,5 @@ const barAnimation = setInterval(() => {
 // const donutAnimation = setInterval(() => {
 //   donut.dataset.percent = t4
 //   donut.style.background = `conic-gradient(#4F98FF 0 ${t4}%, #DEDEDE ${t4}% 100% )`
-//   t4++ >= totalMinwon && clearInterval(donutAnimation)
-// }, 10)
+//   t4++ >= totalMinwon && clearInterval(donutAnimation) 
+//   }, 10) 
