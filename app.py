@@ -93,7 +93,6 @@ def required_videos():
         craw_data.closeDriver()
         print("Driver closed")
         t = elastic.search("result_data", clicked_video_link)
-        print(t["word cloud"]) 
         return render_template("result_page.html", video_id=get_video_id(clicked_video_link), db=elastic.search("result_data", clicked_video_link))
     # else:
     #     flash("Please choose an option")
@@ -153,7 +152,6 @@ def result():
     craw_data.closeDriver()
     print("Driver closed")
     t = elastic.search("result_data", clicked_video_link)
-    print(t["word cloud"]) 
     return render_template("result_page.html", video_id=get_video_id(clicked_video_link), db=elastic.search("result_data", clicked_video_link))
 
 
