@@ -86,11 +86,16 @@ class Crawling:
 
             html = self.driver.page_source
             bs = BeautifulSoup(html,'html.parser')
-
-            hits = bs.select('#count > ytd-video-view-count-renderer > span.view-count.style-scope.ytd-video-view-count-renderer')[0].text
-            # print(hits)
-            likes = bs.select('yt-formatted-string#text.style-scope.ytd-toggle-button-renderer.style-text')[0].text
-            # print(likes)
+            try:
+                hits = bs.select('#count > ytd-video-view-count-renderer > span.view-count.style-scope.ytd-video-view-count-renderer')[0].text
+                # print(hits)
+            except Exception as e:
+                hits = '조회수 0회'
+            try:
+                likes = bs.select('yt-formatted-string#text.style-scope.ytd-toggle-button-renderer.style-text')[0].text
+                # print(likes)
+            except Exception as e:
+                likes = '0'
 
             self.hVideo[link]['hits'] = hits
             self.hVideo[link]['likes'] = likes
@@ -189,10 +194,16 @@ class Crawling:
                 html = self.driver.page_source
                 bs = BeautifulSoup(html,'html.parser')
 
-                hits = bs.select('#count > ytd-video-view-count-renderer > span.view-count.style-scope.ytd-video-view-count-renderer')[0].text
-                # print(hits)
-                likes = bs.select('yt-formatted-string#text.style-scope.ytd-toggle-button-renderer.style-text')[0].text
-                # print(likes)
+                try:
+                    hits = bs.select('#count > ytd-video-view-count-renderer > span.view-count.style-scope.ytd-video-view-count-renderer')[0].text
+                    # print(hits)
+                except Exception as e:
+                    hits = '조회수 0회'
+                try:
+                    likes = bs.select('yt-formatted-string#text.style-scope.ytd-toggle-button-renderer.style-text')[0].text
+                    # print(likes)
+                except Exception as e:
+                    likes = '0'
 
                 self.kVideo[keyword][link]['hits'] = hits
                 self.kVideo[keyword][link]['likes'] = likes

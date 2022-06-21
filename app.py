@@ -14,15 +14,13 @@ import os
 
 app = Flask(__name__)
 sp_c = 0
-elastic = Elastic_class()
+elastic = Elastic_class(es_host='http://172.20.0.3:9200/')
 
 
 # home page
 @app.route('/')
 def index():
     crawData = Crawling()
-    
-    elastic = Elastic_class()
     crawData.setHVideo()
     
     elastic.insert("home_data", crawData.getHVideo())
@@ -165,7 +163,8 @@ if __name__ == '__main__':
     except Exception as e:
         print('Error: %s' % str(e))
 
-    ipaddr = "127.0.0.1"
+    # Docker vs VM (Warning!!!!!)
+    ipaddr=subprocess.getoutput("hostname -I").split()[0]
+    # ipaddr = "127.0.0.1"
     print("Starting the service with ip_addr=" + ipaddr)
     app.run(debug=False, host=ipaddr, port=int(listen_port))
-

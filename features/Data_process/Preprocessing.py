@@ -1,5 +1,5 @@
-#!/usr/bin/python
-#-*- coding: utf-8 -*-
+'''#!/usr/bin/python
+#-*- coding: utf-8 -*-'''
 from tqdm import tqdm
 import re
 
@@ -26,6 +26,7 @@ class Preprocessing:
             print(f'Link[{idx+1}] processing...')
             for comment in tqdm(data[key]):
                 for sentence in comment.split('\n'):
+                    sentence = self.emoticon.sub(r'',sentence)
                     sentence = sentence.strip(self.token)
                     if sentence:
                         self.sentences.append(sentence)
@@ -55,7 +56,8 @@ class Preprocessing:
 
 if __name__=='__main__':
     print('Testing Start...')
+    #...
     # preTool = Preprocessing()
-    # keyword = ['Sinseoyugi','klsdjfklsdajflksjadlkfjsdlafjlasdjf;klas','로로로로로로롤']
-    # preTool.sentenceToWord(data=keyword)
-    # print(preTool.getWord())
+    # keyword = {'key': ['Sinseoyugi\n👉😀😑\n하이','klsdjfklsdajflksjadlkfjsdlafjlasdjf;klas','로로로로로로롤']}
+    # preTool.chatToSentence(data=keyword)
+    # print(preTool.getSentence())
