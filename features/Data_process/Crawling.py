@@ -82,7 +82,7 @@ class Crawling:
         print('Part 2. Hits, Like Crawling')
         for link in tqdm(self.hVideo.keys()):
             self.driver.get(link)
-            time.sleep(3)
+            time.sleep(2)
 
             html = self.driver.page_source
             bs = BeautifulSoup(html,'html.parser')
@@ -189,7 +189,7 @@ class Crawling:
             print('Part 2. Hits, Like Crawling')
             for link in tqdm(self.kVideo[keyword].keys()):
                 self.driver.get(link)
-                time.sleep(5)
+                time.sleep(2)
 
                 html = self.driver.page_source
                 bs = BeautifulSoup(html,'html.parser')
@@ -236,7 +236,7 @@ class Crawling:
             while scroll_count < sc_num:
                 scroll_position = 10000 + scroll_count * 10000
                 self.driver.execute_script(f"window.scrollTo(0,{scroll_position});")
-                time.sleep(3)
+                time.sleep(1)
 
                 pbar.update(1)
                 scroll_count += 1

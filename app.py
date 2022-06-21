@@ -42,7 +42,7 @@ def required_videos():
 
     print(option)
 
-    if option == '1':
+    if option == "1":
         crawData = Crawling()
         crawData.setKVideo(keyword)
 
@@ -83,7 +83,11 @@ def required_videos():
         else:
             wordT = Wordcloud(data=neg_list, dtype="neg")
 
-        word_cloud = wordT.makeWordCloud(sp_c)
+        try:
+            word_cloud = wordT.makeWordCloud(sp_c)
+        except Exception as e:
+            return render_template("error_page.html")
+ 
         sp_c = sp_c + 1
 
         # elastic 
@@ -92,11 +96,7 @@ def required_videos():
 
         craw_data.closeDriver()
         print("Driver closed")
-        t = elastic.search("result_data", clicked_video_link)
         return render_template("result_page.html", video_id=get_video_id(clicked_video_link), db=elastic.search("result_data", clicked_video_link))
-    # else:
-    #     flash("Please choose an option")
-    #     return render_template('home_page.html', videos_data=elastic.search("home_data", "non"))
 
 
 # run after one of video was clicked
@@ -109,9 +109,12 @@ def result():
     
     if request.method == 'POST':
         clicked_video_link = request.form.get('my_var')
+        #keyword = request.form['word_in_searching_field'] 
     elif request.method == 'GET':
+        #keyword = request.form['word_in_searching_field'] 
         clicked_video_link = request.args.get('my_var')
 
+    #print(keyword)
     print("Link of clicked video:  ", clicked_video_link)
 
     # craw comments by given link
@@ -125,7 +128,6 @@ def result():
 
     pre.chatToSentence(comments)  
     prepro_comms = pre.getSentence() 
-    
     # Result data
     num_com, pos_list, neg_list, pos_per = predict_pos.get_res_result(prepro_comms)
     np = 0
@@ -134,17 +136,13 @@ def result():
         wordT = Wordcloud(data=pos_list, dtype="pos")
     else:
         wordT = Wordcloud(data=neg_list, dtype="neg")
-
-    word_cloud = wordT.makeWordCloud(sp_c)
+       
+    try:
+        word_cloud = wordT.makeWordCloud(sp_c)
+    except Exception as e:
+        return render_template("error_page.html") 
     sp_c = sp_c + 1
  
-    # checking results
-    #print("Number of comments: ", num_com)
-    #print("Number of positive comments: ", len(pos_list))
-    #print("Number of negative comments: ", len(neg_list))
-    #print("Number of positive comments in percent: {:.2f}%".format(pos_per))
-    #print("Number of negative comments in percent: {:.2f}%".format(100 - pos_per))
-
     # elastic 
     el1 = elastic.db3(clicked_video_link, num_com, np, pos_per, pos_list, neg_list, word_cloud)
     elastic.insert("result_data", el1)
@@ -164,8 +162,6 @@ if __name__ == '__main__':
     except Exception as e:
         print('Error: %s' % str(e))
 
-    # Docker vs VM (Warning!!!!!)
-    ipaddr=subprocess.getoutput("hostname -I").split()[0]
-    # ipaddr = "127.0.0.1"
+    ipaddr = "127.0.0.1"
     print("Starting the service with ip_addr=" + ipaddr)
     app.run(debug=False, host=ipaddr, port=int(listen_port))
