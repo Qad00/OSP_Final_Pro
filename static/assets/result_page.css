@@ -131,7 +131,7 @@ body{
 }
 
 .progress-bar .progress {
-	/* width: 72%;  */
+	width: 72%; 
 	height: 4vh;
 	padding: 0;
 	text-align: center;
@@ -233,14 +233,15 @@ body{
 	height: 20vh;
 	/* text-align: center; */
 	/* line-height:20vh; */
-  
+
 }
 
 .text-secondary {
 	width: 100%;
-	position:absolute;
-    top:50%; left:50%;
-    transform: translate(-50%, -50%);
-
+	/* position:absolute; */
+    /* top:50%; left:50%; */
+    /* transform: translate(-50%, -50%); */
+	overflow: scroll;
+	text-overflow: ellipsis;
 
 }

@@ -25,10 +25,10 @@
 
           <div class="col-auto">
               <label class="visually-hidden" for="autoSizingSelect">Preference</label>
-              <select class="form-select" id="autoSizingSelect">
+              <select class="form-select" id="autoSizingSelect" name="select_op">
                 <option selected>Choose...</option>
-                <option value="1">Words</option>
-                <option value="2">Url</option>
+                <option value=1>Words</option>
+                <option value=2>Url</option>
               </select>
           </div>
           <div class="col-auto">
@@ -49,7 +49,7 @@
       <div class="card mb-3" style="max-width: 60vw;">
         <div class="row g-0">
           <div class="col-md-4">
-            {% if videos_data[link]['img'] is None %} 
+            {% if videos_data[link]['img'] == None %} 
               <img src="../static/images/youtube_logo.jpg" class="img-fluid rounded-start" alt="썸네일">
             {% else %}
               <img src="{{videos_data[link]['img']}}" class="img-fluid rounded-start" alt="썸네일">
