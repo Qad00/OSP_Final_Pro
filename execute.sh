@@ -18,10 +18,20 @@ sudo dpkg -i google-chrome-stable_current_amd64.deb
  
 sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list'
 sudo apt-get install -y google-chrome-stable
+sudo apt-get install gnupg -y
 
 # Install Python Modules
 sudo pip install --upgrade pip
+pip install flask
+pip install request
+pip install beautifulsoup4
+pip install elasticsearch
+pip install numpy
+pip install matplotlib
+pip install sklearn
+pip install tqdm
 pip install selenium
+pip install torch
 pip install webdriver-manager
 pip install wordcloud
 sudo pip install tensorflow
