@@ -24,9 +24,9 @@ class Elastic_class:
         e2 = {
             url: {
                 "title": title,
-                "image": image,
+                "img": image,
                 "hits": hits,
-                "good": good,
+                "likes": good,
             }
         }
         return e2;
@@ -52,12 +52,12 @@ class Elastic_class:
         }
         return e2;
 
-    def insert(self, idx, i, doc):
-        # idx : string, i : integer, doc : document
-        res = self.es.index(index=idx, id=i, document=doc)
+    def insert(self, idx, doc):
+        # idx : string, doc : document
+        res = self.es.index(index=idx, document=doc, refresh=True)
         return res
 
-    def search(self, idx):  # all print
+    def search(self, idx, url):  # all print
         query = {"query": {"match_all": {}}}  # index 안에 있는 모든 데이터 다 불러옴
         while True:
             try:
@@ -66,8 +66,18 @@ class Elastic_class:
             except Exception as e:
                 print(1)
                 continue
-        for doc in docs['hits']['hits']:
-            print(doc['_source'])
+
+        for doc in reversed(docs['hits']['hits']):
+            try:
+                #print(url)
+                #print(doc['_source'][url])
+                if url == "non":
+                    return doc['_source']
+                else:
+                    return doc['_source'][url]
+            except Exception as e:
+                continue
+
 
 # need testing!
 # if __name__== '__main__':
