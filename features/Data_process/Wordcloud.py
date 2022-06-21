@@ -10,7 +10,7 @@ class Wordcloud:
     def __init__(self, data=None, dtype='pos'):
         ''' Word data 저장'''
         self.words = data
-        self.imgPath = os.path.abspath(os.curdir).replace('\\','/') + '/features/Images'
+        self.imgPath = os.path.abspath(os.curdir).replace('\\','/') + '/static/images'
         self.fontPath = os.path.abspath(os.curdir).replace('\\','/') + '/features/Fonts'
         if dtype == 'pos':
             self.fontCol = 'spring'
@@ -42,13 +42,13 @@ class Wordcloud:
         cloud = wc.generate_from_frequencies(dict(tags))
 
         # 생성된 WordCloud를 이미지 파일로 따로 저장
-        cloud.to_file(self.imgPath + '/wordcloud' + str(index) +'.jpg')
+        cloud.to_file(self.imgPath + '/wordcloud' + str(index) +'.png')
         # Wordcloud 결과 보기
         # plt.figure(figsize=(10, 8))
         # plt.axis('off')
         # plt.imshow(cloud)
         # plt.show()
-        return self.imgPath + '/wordcloud' + str(index) +'.jpg'
+        return '/wordcloud' + str(index) +'.png'
 
 if __name__=='__main__':
     print('Testing start...')

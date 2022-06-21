@@ -7,6 +7,7 @@ from features.Data_process.Crawling import Crawling
 from features.Data_process.Preprocessing import Preprocessing
 from features.db.elasticsearch import Elastic_class
 from features.Data_process.Wordcloud import Wordcloud 
+from features.Data_process.url_type import get_video_id
 from w_model import predict_pos
 import json
 import os
@@ -108,7 +109,7 @@ def result():
     print("Driver closed")
     t = elastic.search("result_data", clicked_video_link)
     print(t["word cloud"]) 
-    return render_template("result_page.html", video_url=clicked_video_link, db=elastic.search("result_data", clicked_video_link))
+    return render_template("result_page.html", video_id=get_video_id(clicked_video_link), db=elastic.search("result_data", clicked_video_link))
 
 
 if __name__ == '__main__':
