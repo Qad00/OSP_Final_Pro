@@ -1,11 +1,3 @@
-{% with messages =get_flashed_messages() %}
-  {% if messages %}
-    <scirpt>
-      alert("{{messages[-1]}}")
-    </scirpt>
-  {% endif %}
-{% endwith %} 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,7 +59,7 @@
       <div class="pos-neg-box">
         <img class="pos-neg smile" src="../static/images/smile.png" alt="">
         <div class="progress-bar">
-            <div class="progress" width="{{db['positive percent']}}%"> </div>
+            <div class="progress" > </div>
         </div>
         <!-- <script>
             let t = 0
@@ -126,7 +118,7 @@
             <div class="card border-secondary mb-3">
               <div class="card-header">3rd</div>
               <div class="card-body text-secondary">
-                <h5 class="card-title">{{db['negative word'][2]}}/h5>
+                <h5 class="card-title">{{db['negative word'][2]}}</h5>
               </div>
             </div>
           </div>

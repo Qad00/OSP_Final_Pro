@@ -131,7 +131,7 @@ body{
 }
 
 .progress-bar .progress {
-	/* width: 72%;  */
+	width: 72%;
 	height: 4vh;
 	padding: 0;
 	text-align: center;
