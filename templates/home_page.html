@@ -43,12 +43,17 @@
     </div>
 
     <div class="middle-container" style="z-index:1">
+      <div class="result-title">Top 10 real-time popular video recommendations</div>
       {% for link in videos_data.keys() %}
       <div class="card mb-3" style="max-width: 60vw;">
         <div class="row g-0">
           <div class="col-md-4">
-            <img src="{{videos_data[link]['img']}}" class="img-fluid rounded-start" alt="썸네일">
-          </div>
+            {% if videos_data[link]['img'] is None %} 
+              <img src="../static/images/youtube_logo.jpg" class="img-fluid rounded-start" alt="썸네일">
+            {% else %}
+              <img src="{{videos_data[link]['img']}}" class="img-fluid rounded-start" alt="썸네일">
+            {% endif %}
+            </div>
           <div class="col-md-8">
             <div class="card-body">
               <h5 class="card-title">{{videos_data[link]['title']}}</h5>
