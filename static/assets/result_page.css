@@ -183,6 +183,16 @@ body{
 					transform: rotate(45deg);
 }
 
+.word-result-box {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 13vh;
+	place-items: center;
+	align-items: center;
+	justify-items: center;
+	text-align: center;
+}
+
 .word-result{
 	padding-top: 6vh;
 	font-size: 20px;
@@ -190,12 +200,12 @@ body{
 
 .pos-cards{
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
+	grid-template-columns: repeat(1, 1fr);
 	gap: 2vw;
 	padding-top: 2vh;
 }
 
 .mb-3 {
-	width: 15vw;
-	height: 12vh;
+	width: 30vw;
+	height: 20vh;
 }

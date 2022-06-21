@@ -47,13 +47,14 @@
       <div class="card mb-3" style="max-width: 60vw;">
         <div class="row g-0">
           <div class="col-md-4">
-            <img src="../static/images/youtube_logo.jpg" class="img-fluid rounded-start" alt="썸네일">
+            <img src="{{videos_data[link]['img']}}" class="img-fluid rounded-start" alt="썸네일">
           </div>
           <div class="col-md-8">
             <div class="card-body">
               <h5 class="card-title">{{videos_data[link]['title']}}</h5>
-              <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-              <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+              <div class="card-text">likes: {{videos_data[link]['likes']}}</div>
+              <div class="card-text">views: {{videos_data[link]['hits']}}</div>
+              <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
             </div>
             <div class="btn-body">
               <a href="{{url_for('result', my_var=link)}}" class="btn btn-primary">Go somewhere</a>
