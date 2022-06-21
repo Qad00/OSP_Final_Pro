@@ -55,6 +55,7 @@ class Preprocessing:
 
 if __name__=='__main__':
     print('Testing Start...')
+    #...
     # preTool = Preprocessing()
     # keyword = ['Sinseoyugi','klsdjfklsdajflksjadlkfjsdlafjlasdjf;klas','로로로로로로롤']
     # preTool.sentenceToWord(data=keyword)

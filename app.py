@@ -8,7 +8,7 @@ from features.Data_process.Preprocessing import Preprocessing
 from features.db.elasticsearch import Elastic_class
 from features.Data_process.Wordcloud import Wordcloud 
 from features.Data_process.url_type import get_video_id
-from w_model import predict_pos
+# from w_model import predict_pos
 import json
 import os
 
@@ -21,8 +21,6 @@ elastic = Elastic_class()
 @app.route('/')
 def index():
     crawData = Crawling()
-    
-    elastic = Elastic_class()
     crawData.setHVideo()
     
     elastic.insert("home_data", crawData.getHVideo())
@@ -121,7 +119,8 @@ if __name__ == '__main__':
     except Exception as e:
         print('Error: %s' % str(e))
 
-    ipaddr = "127.0.0.1"
+    # Docker vs VM (Warning!!!!!)
+    ipaddr=subprocess.getoutput("hostname -I").split()[0]
+    # ipaddr = "127.0.0.1"
     print("Starting the service with ip_addr=" + ipaddr)
     app.run(debug=False, host=ipaddr, port=int(listen_port))
-
