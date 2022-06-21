@@ -30,6 +30,9 @@ class Wordcloud:
                 if tag in ['Noun', 'Adjective']:
                     noun_adj_data.append(word)
 
+        if len(noun_adj_data) == 0:
+            return 'No Korean words...'
+
         # 가장 많이 나온 단어 기준, 상위 40개 저장
         counts = Counter(noun_adj_data)
         tags = counts.most_common(40)

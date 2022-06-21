@@ -19,8 +19,8 @@ sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable
 sudo apt-get install -y google-chrome-stable
 
 # Install Python Modules
-sudo pip install --upgrade pip 
-pip install selenium 
+sudo pip install --upgrade pip
+pip install selenium
 pip install webdriver-manager
 pip install wordcloud
 sudo pip install tensorflow
