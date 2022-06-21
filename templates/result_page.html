@@ -41,7 +41,7 @@
     <div class="middle-container" style="z-index:1">
       <div class="video-wc">
 
-        <iframe class="youtube-video" width="600" height="400" src="https://www.youtube.com/embed/cbuZfY2S2UQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe class="youtube-video" width="600" height="400" src="{{ video_url }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         <!-- <DIV class=video-container style="TEXT-ALIGN: center"><object type="text/html" width="100%" height="500" data="//www.youtube.com/watch?v=nhAR2-WIM-I" allowFullScreen></object> </DIV> -->
 
         <!-- <div class="donut" data-percent="85.4"></div>
@@ -54,7 +54,7 @@
                 t4++ >= 85.4 && clearInterval(donutAnimation)
             }, 10)
         </script> -->
-        <img class="word-cloud" src="{{db['word cloud']}}" alt="word_cloud">
+        <img class="word-cloud" src="../features/Images/wordcloud.jpg" alt="word_cloud">
       </div>
       <div class="pos-neg-box">
         <img class="pos-neg smile" src="../static/images/smile.png" alt="">
@@ -78,19 +78,19 @@
         <div class="card border-secondary mb-3" style="max-width: 18rem;">
           <div class="card-header">1st</div>
           <div class="card-body text-secondary">
-            <h5 class="card-title">good</h5>
+            <h5 class="card-title">{{db['positive word'][0]}}</h5>
           </div>
         </div>
         <div class="card border-secondary mb-3" style="max-width: 18rem;">
           <div class="card-header">2nd</div>
           <div class="card-body text-secondary">
-            <h5 class="card-title">nice</h5>
+            <h5 class="card-title">{{db['positive word'][1]}}</h5>
           </div>
         </div>
         <div class="card border-secondary mb-3" style="max-width: 18rem;">
           <div class="card-header">3rd</div>
           <div class="card-body text-secondary">
-            <h5 class="card-title">wow</h5>
+            <h5 class="card-title">{{db['positive word'][2]}}</h5>
           </div>
         </div>
       </div>
@@ -100,19 +100,19 @@
         <div class="card border-secondary mb-3" style="max-width: 18rem;">
           <div class="card-header">1st</div>
           <div class="card-body text-secondary">
-            <h5 class="card-title">bad</h5>
+            <h5 class="card-title">{{db['negetive word'][0]}}</h5>
           </div>
         </div>
         <div class="card border-secondary mb-3" style="max-width: 18rem;">
           <div class="card-header">2nd</div>
           <div class="card-body text-secondary">
-            <h5 class="card-title">terrible</h5>
+            <h5 class="card-title">{{db['negetive word'][1]}}</h5>
           </div>
         </div>
         <div class="card border-secondary mb-3" style="max-width: 18rem;">
           <div class="card-header">3rd</div>
           <div class="card-body text-secondary">
-            <h5 class="card-title">not good</h5>
+            <h5 class="card-title">{{db['negetive word'][2]}}</h5>
           </div>
         </div>
       </div>

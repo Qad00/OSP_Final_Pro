@@ -26,5 +26,6 @@ sudo pip install --upgrade pip
 sudo pip install tensorflow
 pip install keras
 pip install konlpy
+sudo apt install default-jdk
 # run base 
-python3 app.py --listen-port 5000
+python3 app.py --listen-port 5501

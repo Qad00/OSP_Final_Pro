@@ -108,6 +108,9 @@ def result():
     print("Driver closed")
     t = elastic.search("result_data", clicked_video_link)
     print(t["word cloud"]) 
+    print(pos_list) 
+    print(neg_list) 
+
     return render_template("result_page.html", video_url=clicked_video_link, db=elastic.search("result_data", clicked_video_link))
 
 
