@@ -22,7 +22,6 @@ elastic = Elastic_class()
 def index():
     crawData = Crawling()
     
-    elastic = Elastic_class()
     crawData.setHVideo()
     
     elastic.insert("home_data", crawData.getHVideo())
@@ -65,9 +64,12 @@ def result():
     
     if request.method == 'POST':
         clicked_video_link = request.form.get('my_var')
+        #keyword = request.form['word_in_searching_field'] 
     elif request.method == 'GET':
+        #keyword = request.form['word_in_searching_field'] 
         clicked_video_link = request.args.get('my_var')
 
+    #print(keyword)
     print("Link of clicked video:  ", clicked_video_link)
 
     # craw comments by given link
