@@ -22,5 +22,9 @@ sudo apt-get install -y google-chrome-stable
 pip install webdriver-manager
 pip install wordcloud
 
+sudo pip install --upgrade pip   
+sudo pip install tensorflow
+pip install keras
+pip install konlpy
 # run base 
 python3 app.py --listen-port 5000
