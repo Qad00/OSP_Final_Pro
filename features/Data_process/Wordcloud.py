@@ -29,7 +29,7 @@ class Wordcloud:
             for word, tag in result:
                 if tag in ['Noun', 'Adjective']:
                     noun_adj_data.append(word)
-
+        
         # 가장 많이 나온 단어 기준, 상위 40개 저장
         counts = Counter(noun_adj_data)
         tags = counts.most_common(40)

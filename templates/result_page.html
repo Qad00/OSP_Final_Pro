@@ -59,66 +59,72 @@
       <div class="pos-neg-box">
         <img class="pos-neg smile" src="../static/images/smile.png" alt="">
         <div class="progress-bar">
-            <div class="progress"> </div>
+            <div class="progress" width="{{db['positive percent']}}%"> </div>
         </div>
-            <script>
+        <!-- <script>
             let t = 0
             const bar = document.querySelector(".progress")
             bar.style.width = 0
             const barAnimation = setInterval(() => {
-            bar.style.width =  t + '%'
-            t++ >= {{db['positive percent']}} && clearInterval(barAnimation)
+              bar.style.width =  t + '%'
+              t++ >= {{ db['positive percent'] }} && clearInterval(barAnimation)
             }, 10)
-            </script>
+        </script> -->
         <img class="pos-neg sad" src="../static/images/sad.png" alt="">
       </div>
 
-      <div class="word-result">Top 3 Positive Words</div>
-      <div class="pos-cards">
-        <div class="card border-secondary mb-3" style="max-width: 18rem;">
-          <div class="card-header">1st</div>
-          <div class="card-body text-secondary">
-            <h5 class="card-title">{{db['positive word'][0]}}</h5>
+      <div class="word-result-box">
+        
+        <div class="pos-word-result">
+          <div class="word-result">Top 3 Positive Sentences</div>
+          <div class="pos-cards">
+            <div class="card border-secondary mb-3" >
+              <div class="card-header">1st</div>
+              <div class="card-body text-secondary">
+                <h5 class="card-title">{{db['positive word'][0]}}</h5>
+              </div>
+            </div>
+            <div class="card border-secondary mb-3">
+              <div class="card-header">2nd</div>
+              <div class="card-body text-secondary">
+                <h5 class="card-title">{{db['positive word'][1]}}</h5>
+              </div>
+            </div>
+            <div class="card border-secondary mb-3">
+              <div class="card-header">3rd</div>
+              <div class="card-body text-secondary">
+                <h5 class="card-title">{{db['positive word'][2]}}</h5>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="card border-secondary mb-3" style="max-width: 18rem;">
-          <div class="card-header">2nd</div>
-          <div class="card-body text-secondary">
-            <h5 class="card-title">{{db['positive word'][1]}}</h5>
-          </div>
-        </div>
-        <div class="card border-secondary mb-3" style="max-width: 18rem;">
-          <div class="card-header">3rd</div>
-          <div class="card-body text-secondary">
-            <h5 class="card-title">{{db['positive word'][2]}}</h5>
+        
+        <div class="neg-word-result">
+
+          <div class="word-result">Top 3 Negative Sentences</div>
+          <div class="pos-cards">
+            <div class="card border-secondary mb-3">
+              <div class="card-header">1st</div>
+              <div class="card-body text-secondary">
+                <h5 class="card-title">{{db['positive word'][0]}}</h5>
+              </div>
+            </div>
+            <div class="card border-secondary mb-3">
+              <div class="card-header">2nd</div>
+              <div class="card-body text-secondary">
+                <h5 class="card-title">{{db['positive word'][1]}}</h5>
+              </div>
+            </div>
+            <div class="card border-secondary mb-3">
+              <div class="card-header">3rd</div>
+              <div class="card-body text-secondary">
+                <h5 class="card-title">{{db['positive word'][2]}}/h5>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
-      <div class="word-result">Top 3 Negative Words</div>
-      <div class="pos-cards">
-        <div class="card border-secondary mb-3" style="max-width: 18rem;">
-          <div class="card-header">1st</div>
-          <div class="card-body text-secondary">
-            <h5 class="card-title"><{{db['positive word'][0]}}</h5>
-          </div>
-        </div>
-        <div class="card border-secondary mb-3" style="max-width: 18rem;">
-          <div class="card-header">2nd</div>
-          <div class="card-body text-secondary">
-            <h5 class="card-title">{{db['positive word'][1]}}</h5>
-          </div>
-        </div>
-        <div class="card border-secondary mb-3" style="max-width: 18rem;">
-          <div class="card-header">3rd</div>
-          <div class="card-body text-secondary">
-            <h5 class="card-title"><{{db['positive word'][2]}}/h5>
-          </div>
-        </div>
-      </div>
-
     </div>
-    <!-- <div class="zt-skill-bar"><div data-width="88" style="">쇼핑몰<span>88%</span></div></div> -->
 
 </body>
 </html>
