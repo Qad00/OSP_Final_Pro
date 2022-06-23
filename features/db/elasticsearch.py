@@ -46,7 +46,7 @@ class Elastic_class:
                 "positive/negetive": pn,
                 "positive percent": p_percent,
                 "positive word": list(p_word),
-                "negetive word": list(n_word),
+                "negative word": list(n_word),
                 "word cloud": file_path
             }
         }

@@ -1,11 +1,3 @@
-{% with messages =get_flashed_messages() %}
-  {% if messages %}
-    <scirpt>
-      alert("{{messages[-1]}}")
-    </scirpt>
-  {% endif %}
-{% endwith %} 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,7 +18,7 @@
 
           <div class="col-auto">
               <label class="visually-hidden" for="autoSizingSelect">Preference</label>
-              <select class="form-select" id="autoSizingSelect">
+              <select class="form-select" id="autoSizingSelect" name="select_op">
                 <option selected>Choose...</option>
                 <option value="1">Words</option>
                 <option value="2">Url</option>
